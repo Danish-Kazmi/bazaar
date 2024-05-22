@@ -33,8 +33,8 @@ export default {
 								</ul>
 							</li>
 							<li class="login">
-								<a class="link-lg" href="#">Register </a> /
-								<a class="link-lg" href="#">Login </a>
+								<a class="link-lg" :href="route('register')">Register </a> /
+								<a class="link-lg" :href="route('login')">Login </a>
 							</li>
 							<!-- LANGUAGE CURENTY -->
 							<!-- <li class="hidden">
