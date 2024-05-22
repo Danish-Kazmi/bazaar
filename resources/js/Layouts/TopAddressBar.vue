@@ -136,7 +136,7 @@ export default {
 							<li>
 								<div class="checkout clearfix">
 									<a href="cart.html" class="btn btn-view-cart inverse"> View Cart</a>
-									<a href="checkout.html" class="btn btn-checkout pull-right">Checkout</a>
+									<a :href="route('checkout')" class="btn btn-checkout pull-right">Checkout</a>
 								</div>
 							</li>
 						</ul>

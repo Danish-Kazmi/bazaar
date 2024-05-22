@@ -38,6 +38,7 @@
 	<link href="theme/css/footer/footer1.css" rel="stylesheet">
 	<link href="theme/css/header/header1.css" rel="stylesheet">
     
+	<link href="theme/css/themecss/so_onepagecheckout.css" rel="stylesheet">
 	<link id="color_scheme" href="theme/css/theme.css" rel="stylesheet">
 	<link href="theme/css/responsive.css" rel="stylesheet">
 	<link href="theme/css/quickview/quickview.css" rel="stylesheet">

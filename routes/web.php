@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\Admins\AdminController;
 use App\Http\Controllers\Auth\Admins\PermissionController;
 use App\Http\Controllers\Auth\Admins\RoleController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\checkoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomepageController;
 use Illuminate\Foundation\Application;
@@ -52,5 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
     Route::delete('/category/{id}', [CategoryController::class, 'destory'])->name('category.destory');
 });
+
+Route::get('/checkout' ,[checkoutController::class,'checkout'])->name('checkout');
 
 require __DIR__.'/auth.php';
