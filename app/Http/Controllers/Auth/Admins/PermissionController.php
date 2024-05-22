@@ -49,7 +49,6 @@ class PermissionController extends Controller
                     'edit' => Auth::user()->can('permission-edit'),
                     'delete' => Auth::user()->can('permission-delete'),
                     'list' => $getTagListPermissions,
-
                 ]
             ]);
         }
@@ -58,7 +57,8 @@ class PermissionController extends Controller
         $TagListPermissions = [
                 'users' => Auth::user()->can('user-list'),
                 'roles' => Auth::user()->can('role-list'),
-                'permissions' => Auth::user()->can('permission-list')
+                'permissions' => Auth::user()->can('permission-list'),
+                'category' => Auth::user()->can('category-list')
              ];
         return $TagListPermissions;
      }

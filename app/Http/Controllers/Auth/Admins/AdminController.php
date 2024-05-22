@@ -63,9 +63,10 @@ class AdminController extends Controller
     }
     public function TagListPermissions() {
        $TagListPermissions = [
-               'users' => Auth::user()->can('user-list'),
-               'roles' => Auth::user()->can('role-list'),
-               'permissions' => Auth::user()->can('permission-list')
+                'users' => Auth::user()->can('user-list'),
+                'roles' => Auth::user()->can('role-list'),
+                'permissions' => Auth::user()->can('permission-list'),
+                'category' => Auth::user()->can('category-list')
             ];
        return $TagListPermissions;
     }

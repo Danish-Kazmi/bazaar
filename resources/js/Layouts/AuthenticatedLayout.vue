@@ -14,7 +14,7 @@ defineProps({
         type: Boolean,
     },
     can: {
-        type: String,
+        type: Object,
     },
 });
 </script>

@@ -8,14 +8,16 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Auth;
+
 class DashboardController extends Controller
 {
-    public function dashboard() {
+    public function dashboard()
+    {
         $getTagListPermissions = $this->TagListPermissions();
         $roles = Role::count();
         $users = User::count();
         $permissions = Permission::count();
-        return Inertia::render('Dashboard',[
+        return Inertia::render('Dashboard', [
             'roles' => $roles,
             'users' => $users,
             'permissions' => $permissions,
@@ -24,13 +26,14 @@ class DashboardController extends Controller
             ]
         ]);
     }
-    public function TagListPermissions() {
+    public function TagListPermissions()
+    {
         $TagListPermissions = [
-                'users' => Auth::user()->can('user-list'),
-                'roles' => Auth::user()->can('role-list'),
-                'permissions' => Auth::user()->can('permission-list')
-             ];
+            'users' => Auth::user()->can('user-list'),
+            'roles' => Auth::user()->can('role-list'),
+            'permissions' => Auth::user()->can('permission-list'),
+            'category' => Auth::user()->can('category-list')
+        ];
         return $TagListPermissions;
-     }
+    }
 }
-

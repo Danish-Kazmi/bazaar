@@ -13,14 +13,28 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
+    public function TagListPermissions()
+    {
+        $TagListPermissions = [
+            'users' => Auth::user()->can('user-list'),
+            'roles' => Auth::user()->can('role-list'),
+            'permissions' => Auth::user()->can('permission-list'),
+            'category' => Auth::user()->can('category-list')
+        ];
+        return $TagListPermissions;
+    }
     /**
      * Display the user's profile form.
      */
     public function edit(Request $request): Response
     {
+        $getTagListPermissions = $this->TagListPermissions();
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'can' => [
+                'list' => $getTagListPermissions,
+            ]
         ]);
     }
 

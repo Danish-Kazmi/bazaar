@@ -61,8 +61,9 @@ class RoleController extends Controller
         $TagListPermissions = [
                 'users' => Auth::user()->can('user-list'),
                 'roles' => Auth::user()->can('role-list'),
-                'permissions' => Auth::user()->can('permission-list')
-             ];
+                'permissions' => Auth::user()->can('permission-list'),
+                'category' => Auth::user()->can('category-list')
+            ];
         return $TagListPermissions;
      }
     public function store(Request $request) {

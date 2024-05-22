@@ -44,6 +44,13 @@ Route::middleware('auth')->group(function () {
     // Permissions
     Route::get('/permissions',[PermissionController::class,'index'])->name('permissions');
     Route::post('/permission/store',[PermissionController::class,'store'])->name('permissions.store');
+    
+    // Category
+    Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+    Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
+    Route::get('/category/{id}', [CategoryController::class, 'edit'])->name('category.edit');
+    Route::post('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
+    Route::delete('/category/{id}', [CategoryController::class, 'destory'])->name('category.destory');
 });
 
 require __DIR__.'/auth.php';
