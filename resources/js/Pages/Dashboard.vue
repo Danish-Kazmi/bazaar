@@ -43,7 +43,7 @@ defineProps({
                         </div>
                     </div>
                 </div>
-                <div class="w-full w-full mb-4 bg-[#ffffff]">
+                <div class="w-full mb-4 bg-[#ffffff]">
                     <div class="shadow rounded-lg overflow-hidden">
                         <div class="p-4">
                             <div class="flex items-center">
@@ -65,7 +65,7 @@ defineProps({
                         </div>
                     </div>
                 </div>
-                <div class="w-full w-full mb-4 bg-[#ffffff]">
+                <div class="w-full mb-4 bg-[#ffffff]">
                     <div class="shadow rounded-lg overflow-hidden">
                         <div class="p-4">
                             <div class="flex items-center">

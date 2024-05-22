@@ -15,8 +15,8 @@ class DefaultUserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Ahsan Iftikhar',
-            'email' => 'ai.ahsan.iftikhar@admin.com',
+            'name' => 'Bazaar Admin',
+            'email' => 'admin@admin.com',
             'password' => Hash::make('12345678'),
         ])->assignRole('super-admin');
     }
