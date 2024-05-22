@@ -16,7 +16,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
-            .use( CKEditor )
+            .use(CKEditor)
             .component('vue-multiselect', window.VueMultiselect.default)
             .component('ck-editor', () => import('./Components/ckeditor.vue'))
             .mount(el);
