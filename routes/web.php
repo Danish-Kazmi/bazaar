@@ -56,5 +56,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/checkout' ,[checkoutController::class,'checkout'])->name('checkout');
+Route::get('/cart' ,[checkoutController::class,'view_cart'])->name('view_cart');
 
 require __DIR__.'/auth.php';
