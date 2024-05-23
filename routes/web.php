@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\Admins\AdminController;
 use App\Http\Controllers\Auth\Admins\PermissionController;
 use App\Http\Controllers\Auth\Admins\RoleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\checkoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomepageController;
 use Illuminate\Foundation\Application;
@@ -25,6 +26,11 @@ use Inertia\Inertia;
 
 Route::middleware(['category'])->group(function () {
     Route::get('/', [HomepageController::class, 'index'])->name('home');
+
+    Route::get('/checkout' ,[checkoutController::class,'checkout'])->name('checkout');
+    Route::get('/cart' ,[checkoutController::class,'view_cart'])->name('view_cart');
+    Route::get('/features', [HomepageController::class, 'features'])->name('features');   
+    Route::get('/feature', [HomepageController::class, 'singleFeature'])->name('single_feature');   
 });
 
 Route::middleware('auth')->group(function () {
