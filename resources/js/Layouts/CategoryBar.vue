@@ -48,27 +48,27 @@ export default {
                                                     </li>
                                                     <li class="full-width option2 with-sub-menu hover">
                                                         <p class="close-menu"></p>
-                                                        <a class="clearfix">
+                                                        <a :href="route('features')" class="clearfix">
                                                             <strong>
-                                                                Features
+                                                                Hot Deal
                                                             </strong>
 
                                                         </a>
                                                     </li>
                                                     <li class="item-style1 content-full with-sub-menu hover">
                                                         <p class="close-menu"></p>
-                                                        <a class="clearfix">
+                                                        <a :href="route('about_us')" class="clearfix">
                                                             <strong>
-                                                                Colections
+                                                                About Us
                                                             </strong>
 
                                                         </a>
                                                     </li>
                                                     <li class="item-style2 content-full feafute with-sub-menu hover">
                                                         <p class="close-menu"></p>
-                                                        <a class="clearfix">
+                                                        <a :href="route('contact_us')" class="clearfix">
                                                             <strong>
-                                                                Accessories
+                                                                Contact Us
                                                             </strong>
 
                                                         </a>

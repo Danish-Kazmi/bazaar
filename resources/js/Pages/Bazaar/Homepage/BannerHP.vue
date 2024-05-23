@@ -7,9 +7,6 @@ export default {
         return {
             categories: [],
             activeCategory: null,
-            dropdownshow: false,
-            dropdownshowtravel: false,
-            dropdownshowfashion: false,
         };
     },
     mounted() {
@@ -22,23 +19,6 @@ export default {
         },
         openCategory(id) {
             console.log(`Navigate to category with ID: ${id}`);
-        },
-        toogleFunctionality(value) {
-            if (value == "eletronics") {
-                this.dropdownshowtravel = false;
-                this.dropdownshowfashion = false;
-                this.dropdownshow = !this.dropdownshow; // Toggle dropdown visibility
-            }
-            if (value == "travel") {
-                this.dropdownshowfashion = false;
-                this.dropdownshow = false;
-                this.dropdownshowtravel = !this.dropdownshowtravel;
-            }
-            if (value == "fashion") {
-                this.dropdownshow = false;
-                this.dropdownshowtravel = false;
-                this.dropdownshowfashion = !this.dropdownshowfashion;
-            }
         },
         openCategory(id) {
             console.log('Seacrh by ' + id);
@@ -103,8 +83,9 @@ export default {
                                                                             </strong>
                                                                         </span>
                                                                         <b class="fa fa-caret-right"></b>
+                                                                        <!-- <b :class="{'fa fa-caret-down': activeCategory === category.id, 'fa fa-caret-right': activeCategory !== category.id}"></b> -->
                                                                     </a>
-                                                                    <div v-if="activeCategory === id" class="bg-white ml-[100%] top-8 absolute p-10"
+                                                                    <div v-if="activeCategory === category.id" class="bg-white ml-[100%] top-8 absolute p-10"
                                                                         style="width:650px">
                                                                         <div class="content">
                                                                             <div class="row">

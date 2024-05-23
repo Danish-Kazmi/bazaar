@@ -33,6 +33,7 @@ Route::middleware(['category'])->group(function () {
     Route::get('/feature', [HomepageController::class, 'singleFeature'])->name('single_feature');   
     Route::get('/contact-us', [HomepageController::class, 'contact_us'])->name('contact_us');   
     Route::post('/contact-us', [HomepageController::class, 'contact_email'])->name('contact_us');   
+    Route::get('/about-us', [HomepageController::class, 'about_us'])->name('about_us');   
 });
 
 Route::middleware('auth')->group(function () {
