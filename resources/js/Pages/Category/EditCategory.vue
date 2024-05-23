@@ -68,9 +68,9 @@ export default {
             </div>
             <div class="flex justify-end gap-3 mb-4">
                 <button type="submit"
-                    class="rounded-md px-5 py-2 bg-blue-500 text-white text-sm font-semibold hover:bg-blue-600 duration-300">Update</button>
+                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 float-right">Update</button>
                 <button type="button" @click="closeModal()"
-                    class="rounded-md px-5 py-2 bg-blue-500 text-white text-sm font-semibold hover:bg-blue-600 duration-300">Cancel</button>
+                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 float-right">Cancel</button>
             </div>
         </form>
     </div>

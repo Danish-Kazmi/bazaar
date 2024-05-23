@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\Admins\AdminController;
 use App\Http\Controllers\Auth\Admins\PermissionController;
 use App\Http\Controllers\Auth\Admins\RoleController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\checkoutController;
 use App\Http\Controllers\DashboardController;
@@ -60,6 +61,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/category/{id}', [CategoryController::class, 'edit'])->name('category.edit');
     Route::post('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
     Route::delete('/category/{id}', [CategoryController::class, 'destory'])->name('category.destory');
+    
+    // Brand
+    Route::get('/brands', [BrandController::class, 'index'])->middleware('category')->name('brand.index');
+    Route::post('/brands', [BrandController::class, 'store'])->name('brand.store');
+    Route::get('/brands/{id}', [BrandController::class, 'edit'])->name('brand.edit');
+    Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brand.update');
+    Route::delete('/brands/{id}', [BrandController::class, 'destroy'])->name('brand.destroy');
 });
 
 require __DIR__ . '/auth.php';

@@ -19,7 +19,8 @@ class ProfileController extends Controller
             'users' => Auth::user()->can('user-list'),
             'roles' => Auth::user()->can('role-list'),
             'permissions' => Auth::user()->can('permission-list'),
-            'category' => Auth::user()->can('category-list')
+            'category' => Auth::user()->can('category-list'),
+            'brand' => Auth::user()->can('brand-list')
         ];
         return $TagListPermissions;
     }

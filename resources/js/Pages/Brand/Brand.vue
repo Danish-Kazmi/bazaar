@@ -2,52 +2,57 @@
 import { Head } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Datatable from '@/Components/DDatatable.vue';
-import AddCategory from '@/Pages/Category/AddCategory.vue';
-import EditCategory from '@/Pages/Category/EditCategory.vue';
+import AddBrand from '@/Pages/Brand/AddBrand.vue';
+import EditBrand from '@/Pages/Brand/EditBrand.vue';
+import { usePage } from '@inertiajs/vue3';
 
 export default {
-    name: 'Category',
+    name: 'Brand',
     props: {
         tableRows: Array,
         total: Number,
         record: String,
-        parentCategories: Array,
-        can: Object
+        can: Object,
     },
     components: {
         Head,
         AuthenticatedLayout,
         Datatable,
-        AddCategory,
-        EditCategory
+        AddBrand,
+        EditBrand
+    },
+    mounted() {
+        const categories = usePage().props.categories;
+        this.categories = categories;
     },
     data() {
         return {
-            dataTableColumns: ['Category Name', 'Parent Category', 'Actions'],
+            dataTableColumns: ['Brand Name', 'Logo', 'Subcategories', 'Actions'],
             dataTableRows: this.tableRows,
             dataTableSettings: {
-                url: '/category',
+                url: '/brands',
                 total: this.total,
                 record: this.record
             },
-            showAddCategoryForm: false,
-            showEditCategoryForm: false,
-            editCategory: [],
+            showAddBrandForm: false,
+            showEditBrandForm: false,
+            editBrand: [],
             refreshData: false,
+            categories: [],
         };
     },
     methods: {
-        addCategory() {
-            this.showAddCategoryForm = true;
+        addBrand() {
+            this.showAddBrandForm = true;
         },
         editFunction(id) {
             axios({
-                url: '/category/' + id,
+                url: '/brands/'+id,
                 method: 'GET',
             }).then(response => {
                 if (response.data.status) {
-                    this.editCategory = response.data.data;
-                    this.showEditCategoryForm = true;
+                    this.editBrand = response.data.data;
+                    this.showEditBrandForm = true;
                 }
             }).catch(error => {
                 console.error('Error downloading ', error);
@@ -55,7 +60,7 @@ export default {
         },
         deleteFunction(id) {
             axios({
-                url: '/category/' + id,
+                url: '/brands/'+id,
                 method: 'DELETE',
             }).then(response => {
                 this.refreshTable();
@@ -64,8 +69,8 @@ export default {
             });
         },
         closeModal() {
-            this.showAddCategoryForm = false;
-            this.showEditCategoryForm = false;
+            this.showAddBrandForm = false;
+            this.showEditBrandForm = false;
             this.refreshTable();
         },
         refreshTable() {
@@ -79,24 +84,21 @@ export default {
 </script>
 
 <template>
-
-    <Head title="Categories" />
+    <Head title="Brands" />
 
     <AuthenticatedLayout :can="can">
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <div v-if="!showAddCategoryForm && !showEditCategoryForm">
-                        <button @click="addCategory()"
-                            class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 float-right">Add</button>
+                    <div v-if="!showAddBrandForm && !showEditBrandForm">
+                        <button @click="addBrand()"
+                        class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 float-right">Add</button>
                         <Datatable :dataTableColumns="dataTableColumns" :dataTableRows="dataTableRows"
-                            @edit="editFunction" @delete="deleteFunction" :dataTableSettings="dataTableSettings"
-                            :refreshTable="refreshData" />
+                            @edit="editFunction" @delete="deleteFunction"
+                            :dataTableSettings="dataTableSettings" :refreshTable="refreshData"/>
                     </div>
-                    <AddCategory v-if="showAddCategoryForm" :parentCategories="parentCategories"
-                        @closeModal="closeModal" />
-                    <EditCategory v-if="showEditCategoryForm" :editCategory="editCategory"
-                        :parentCategories="parentCategories" @closeModal="closeModal" />
+                    <AddBrand v-if="showAddBrandForm" :categories="categories" @closeModal="closeModal" />
+                    <EditBrand v-if="showEditBrandForm" :editBrand="editBrand" :categories="categories" @closeModal="closeModal" />
                 </div>
             </div>
         </div>

@@ -6,9 +6,22 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
+    public function TagListPermissions()
+    {
+        $TagListPermissions = [
+            'users' => Auth::user()->can('user-list'),
+            'roles' => Auth::user()->can('role-list'),
+            'permissions' => Auth::user()->can('permission-list'),
+            'category' => Auth::user()->can('category-list'),
+            'brand' => Auth::user()->can('brand-list')
+        ];
+        return $TagListPermissions;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -44,6 +57,7 @@ class CategoryController extends Controller
         $categories = $categories->get();
 
         $parentCategories = Category::select('id', 'category_name')->where('parent_category', 0)->get();
+        $getTagListPermissions = $this->TagListPermissions();
 
         if ($request->has('take')) {
             return response()->json([
@@ -51,14 +65,20 @@ class CategoryController extends Controller
                 'tableRows' => $this->filterTableData($categories->toArray()),
                 'total' => $total,
                 'record' => (string) $take,
-                'parentCategories' => $parentCategories
+                'parentCategories' => $parentCategories,
+                'can' => [
+                    'list' => $getTagListPermissions,
+                ]
             ]);
         } else {
             return Inertia::render('Category/Category', [
                 'tableRows' => $this->filterTableData($categories->toArray()),
                 'total' => $total,
                 'record' => (string) $take,
-                'parentCategories' => $parentCategories
+                'parentCategories' => $parentCategories,
+                'can' => [
+                    'list' => $getTagListPermissions,
+                ]
             ]);
         }
     }
