@@ -7,7 +7,7 @@ import EditProduct from '@/Pages/Product/EditProduct.vue';
 import { usePage } from '@inertiajs/vue3';
 
 export default {
-    name: 'Prodtuct',
+    name: 'Product',
     props: {
         tableRows: Array,
         total: Number,

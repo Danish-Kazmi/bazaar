@@ -57,7 +57,7 @@ class BrandController extends Controller
             if ($brand->brand_logo) {
                 $brand->brand_logo_url = Storage::url('brand_logos/' . $brand->brand_logo);
             } else {
-                $brand->brand_logo_url = null; // Or a default image URL if preferred
+                $brand->brand_logo_url = Storage::url('product_images/demo.jpeg'); // Or a default image URL if preferred
             }
             return $brand;
         });

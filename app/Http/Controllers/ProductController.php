@@ -83,7 +83,7 @@ class ProductController extends Controller
             if ($product->Image) {
                 $product->Image = Storage::url($product->Image);
             } else {
-                $product->Image = null; // Or a default image URL if preferred
+                $product->Image = Storage::url('product_images/demo.jpeg'); // Or a default image URL if preferred
             }
             if ($product->New_Arrival) {
                 $product->New_Arrival = 'Yes';
@@ -202,6 +202,11 @@ class ProductController extends Controller
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
         }
+
+        $product->image_paths = $product->images->pluck('image_path')->map(function ($path) {
+            return Storage::url($path);
+        })->toArray();
+
         return response()->json(['status' => true, 'data' => $product], 200);
     }
 
@@ -210,31 +215,59 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validatedData = $request->validate([
+        // Validate incoming request data
+        $request->validate([
             'product_id' => 'required|unique:products,product_id,' . $id,
             'product_name' => 'required',
-            'category_id' => 'required|exists:categories,id',
-            'manufacturer_name' => 'required',
-            'model' => 'required',
-            'stock' => 'required|integer|min:0',
             'price' => 'required|numeric|min:0',
+            'image_path_*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust image validation as needed
         ]);
 
+        // Find the product by id
         $product = Product::findOrFail($id);
 
-        if ($request->hasFile('product_image')) {
-            $image = $request->file('product_image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $imagePath = 'product_images/' . $imageName;
-            $image->move(public_path('product_images'), $imageName);
-            $validatedData['image_path'] = $imagePath;
-            // } else {
-            //     if (!$validatedData['is_image']) {
-            //         unset($validatedData['image_path']); // Remove image_path from update data
-            //     }
-        }
+        // Update product details
+        $product->update([
+            'product_id' => $request->product_id,
+            'product_name' => $request->product_name,
+            'category_id' => $request->category_id,
+            'brand_id' => $request->brand_id,
+            'model' => $request->model,
+            'stock' => $request->stock,
+            'price' => $request->price,
+            'sale_price' => $request->sale_price,
+        ]);
+            
+        if ($request->hasFile('image_path_')) {
+            // Existing images in the database
+            $existingImages = $product->images->pluck('image_path')->toArray();
 
-        $product->update($validatedData);
+            // Get new image paths from the request
+            $newImagePaths = [];
+
+            foreach ($request->file() as $key => $file) {
+                if (strpos($key, 'image_path_') === 0) {
+                    $path = $file->store('product_images', 'public');
+                    $newImagePaths[] = $path;
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'image_path' => $path,
+                    ]);
+                }
+            }
+
+            // Determine which images need to be deleted
+            $imagesToDelete = array_diff($existingImages, $newImagePaths);
+
+            // Delete the images from storage and database
+            foreach ($imagesToDelete as $image) {
+                // Remove the image file from storage
+                Storage::disk('public')->delete($image);
+
+                // Remove the image entry from the database
+                ProductImage::where('image_path', $image)->delete();
+            }
+        }
 
         return response()->json(['message' => 'Product updated successfully', 'product' => $product], 200);
     }
