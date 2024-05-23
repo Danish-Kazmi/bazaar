@@ -146,6 +146,9 @@ class BrandController extends Controller
         $brand->brand_name = $validatedData['brand_name'];
 
         if ($request->hasFile('brand_logo')) {
+            if ($brand->brand_logo) {
+                Storage::delete('public/brand_logos/' . $brand->brand_logo);
+            }
             $path = $request->file('brand_logo')->store('public/brand_logos');
             $brand->brand_logo = basename($path);
         }
