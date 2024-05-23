@@ -2,6 +2,7 @@
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Link } from '@inertiajs/vue3';
 import TopAddressBar from '@/Layouts/TopAddressBar.vue';
+import CategoryBar from '@/Layouts/CategoryBar.vue';
 import NavBar from '@/Layouts/NavBar.vue';
 import Footer from '@/Layouts/Footer.vue';
 
@@ -10,6 +11,7 @@ export default {
     ApplicationLogo,
     Link,
     TopAddressBar,
+    CategoryBar,
     NavBar,
     Footer
   },
