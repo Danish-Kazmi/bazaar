@@ -19,4 +19,18 @@ class HomepageController extends Controller
     {
         return Inertia::render('Bazaar/singleFeature');
     }
+    public function contact_us()
+    {
+        return Inertia::render('Bazaar/contact_us');
+    }
+    public function about_us()
+    {
+        return Inertia::render('Bazaar/about_us');
+    }
+    public function contact_email(Request $request)
+    {
+        $contact_user = $request->all();
+        \Mail::to($request->contactEmail)->send(new \App\Mail\contactMail($contact_user));
+        return redirect()->back();
+    }
 }
