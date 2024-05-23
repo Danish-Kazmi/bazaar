@@ -11,4 +11,12 @@ class HomepageController extends Controller
     {
         return Inertia::render('Bazaar/Homepage');
     }
+    public function features()
+    {
+        return Inertia::render('Bazaar/Features');
+    }
+    public function singleFeature()
+    {
+        return Inertia::render('Bazaar/singleFeature');
+    }
 }

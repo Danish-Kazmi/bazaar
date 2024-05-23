@@ -57,5 +57,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/checkout' ,[checkoutController::class,'checkout'])->name('checkout');
 Route::get('/cart' ,[checkoutController::class,'view_cart'])->name('view_cart');
+Route::get('/features', [HomepageController::class, 'features'])->name('features');   
+Route::get('/feature', [HomepageController::class, 'singleFeature'])->name('single_feature');   
 
 require __DIR__.'/auth.php';

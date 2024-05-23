@@ -26,43 +26,7 @@ export default {
 				<h1 class="text-[42px] font-extrabold">So Onepage Checkout</h1>
 				<div class="so-onepagecheckout layout1">
 					<div class="col-left col-lg-6 col-md-6 col-sm-6 col-xs-12">
-						<div class="checkout-content login-box">
-							<h2 class="secondary-title"><i class="fa fa-user"></i>Create an Account or Login</h2>
-							<div class="box-inner">
-								<div class="radio">
-									<label>
-										<input type="radio" name="account" value="register" checked="checked">Register Account</label>
-								</div>
-
-								<div class="radio">
-									<label>
-										<input type="radio" name="account" value="guest">Guest Checkout</label>
-								</div>
-
-								<div class="radio">
-									<label>
-										<input type="radio" name="account" value="login">Returning Customer</label>
-								</div>
-							</div>
-						</div>
-
-						<div class="checkout-content checkout-login" style="">
-							<fieldset>
-								<h2 class="secondary-title"><i class="fa fa-unlock"></i>Returning Customer</h2>
-								<div class="box-inner">
-									<div class="form-group">
-										<input type="text" name="login_email" value="" placeholder="E-Mail" id="input-login_email" class="form-control">
-									</div>
-									<div class="form-group">
-										<input type="password" name="login_password" value="" placeholder="Password" id="input-login_password" class="form-control">
-										<a href="#">Forgotten Password</a>
-									</div>
-									<div class="form-group">
-										<input type="button" value="Login" id="button-login" data-loading-text="Loading..." class="btn-primary button">
-									</div>
-								</div>
-							</fieldset>
-						</div>
+					
 
 						<div class="checkout-content checkout-register">
 							<fieldset id="account">
@@ -90,17 +54,6 @@ export default {
 									</div>
 									<div class="form-group fax-input">
 										<input type="text" name="fax" value="" placeholder="Fax" id="input-payment-fax" class="form-control">
-									</div>
-								</div>
-							</fieldset>
-							<fieldset id="password" style="display: block;">
-								<h2 class="secondary-title"><i class="fa fa-lock"></i>Your Password</h2>
-								<div class="box-inner">
-									<div class="form-group required">
-										<input type="password" name="password" value="" placeholder="Password *" id="input-payment-password" class="form-control">
-									</div>
-									<div class="form-group required">
-										<input type="password" name="confirm" value="" placeholder="Password Confirm *" id="input-payment-confirm" class="form-control">
 									</div>
 								</div>
 							</fieldset>
@@ -859,93 +812,8 @@ export default {
 							</div>
 						</section>
 						<section class="section-right">
-							<div id="coupon_voucher_reward">
-								<div class="checkout-content coupon-voucher">
-									<h2 class="secondary-title"><i class="fa fa-gift"></i>Do you Have a Coupon or Voucher?</h2>
-									<div class="box-inner">
-										<div class="panel-body checkout-coupon">
-											<label class="col-sm-2 control-label" for="input-coupon">Enter coupon code</label>
-											<div class="input-group">
-												<input type="text" name="coupon" value="" placeholder="Enter coupon code" id="input-coupon" class="form-control">
-												<span class="input-group-btn">
-								<input type="button" value="Apply Coupon" id="button-coupon" data-loading-text="Loading..." class="btn-primary button">
-							</span>
-											</div>
-										</div>
-
-										<div class="panel-body checkout-voucher">
-											<label class="col-sm-2 control-label" for="input-voucher">Enter voucher code</label>
-											<div class="input-group">
-												<input type="text" name="voucher" value="" placeholder="Enter voucher code" id="input-voucher" class="form-control">
-												<span class="input-group-btn">
-								<input type="button" value="Apply Voucher" id="button-voucher" data-loading-text="Loading..." class="btn-primary button">
-							</span>
-											</div>
-										</div>
-
-									</div>
-								</div>
-
-							</div>
-
-							<div class="checkout-content checkout-cart">
-								<h2 class="secondary-title"><i class="fa fa-shopping-cart"></i>Shopping Cart  (0.00kg) </h2>
-								<div class="box-inner">
-									<div class="table-responsive checkout-product">
-										<table class="table table-bordered table-hover">
-											<thead>
-												<tr>
-													<th class="text-left name" colspan="2">Product Name</th>
-													<th class="text-center quantity">Quantity</th>
-													<th class="text-center checkout-price">Unit Price</th>
-													<th class="text-right total">Total</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td class="text-left name" colspan="2">
-														<a href="product.html"><img src="theme/image/catalog/demo/product/travel/2-80x80.jpg" alt="Bougainvilleas on Lombard Street,  San Francisco, Tokyo" title="Bougainvilleas on Lombard Street,  San Francisco, Tokyo" class="img-thumbnail"></a>
-														<a href="product.html" class="product-name">Bougainvilleas on Lombard Street,  San Francisco, Tokyo</a>
-													</td>
-													<td class="text-left quantity">
-														<div class="input-group">
-															<input type="text" name="quantity[317]" value="1" size="1" class="form-control">
-															<span class="input-group-btn">
-																<span data-toggle="tooltip" title="" data-product-key="317" class="btn-delete" data-original-title="Remove"><i class="fa fa-trash-o"></i></span>
-																<span data-toggle="tooltip" title="" data-product-key="317" class="btn-update" data-original-title="Update"><i class="fa fa-refresh"></i></span>
-															</span>
-														</div>
-													</td>
-													<td class="text-right price">$120.80</td>
-													<td class="text-right total">$120.80</td>
-												</tr>
-											</tbody>
-											<tfoot>
-												<tr>
-													<td colspan="4" class="text-left">Sub-Total:</td>
-													<td class="text-right">$99.00</td>
-												</tr>
-												<tr>
-													<td colspan="4" class="text-left">Eco Tax (-2.00):</td>
-													<td class="text-right">$2.00</td>
-												</tr>
-												<tr>
-													<td colspan="4" class="text-left">VAT (20%):</td>
-													<td class="text-right">$19.80</td>
-												</tr>
-												<tr>
-													<td colspan="4" class="text-left">Total:</td>
-													<td class="text-right">$120.80</td>
-												</tr>
-											</tfoot>
-										</table>
-									</div>
-									<div id="payment-confirm-button" class="payment-">
-										<h2 class="secondary-title"><i class="fa fa-credit-card"></i>Payment Details</h2>
-										
-									</div>
-								</div>
-							</div>
+						
+						
 
 							<div class="checkout-content confirm-section">
 								<div>

@@ -39,7 +39,7 @@ export default {
 													</li>
 													<li class="full-width option2 with-sub-menu hover">
 														<p class="close-menu"></p>
-														<a class="clearfix">
+														<a :href="route('features')" class="clearfix">
 															<strong>
 																Features
 															</strong>
