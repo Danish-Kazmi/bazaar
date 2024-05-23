@@ -23,30 +23,39 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', [HomepageController::class, 'index'])->name('home');   
 
-Route::get('/dashboard',[DashboardController::class,'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['category'])->group(function () {
+    Route::get('/', [HomepageController::class, 'index'])->name('home');
+
+    Route::get('/checkout' ,[checkoutController::class,'checkout'])->name('checkout');
+    Route::get('/cart' ,[checkoutController::class,'view_cart'])->name('view_cart');
+    Route::get('/features', [HomepageController::class, 'features'])->name('features');   
+    Route::get('/feature', [HomepageController::class, 'singleFeature'])->name('single_feature');   
+    Route::get('/contact-us', [HomepageController::class, 'contact_us'])->name('contact_us');   
+    Route::post('/contact-us', [HomepageController::class, 'contact_email'])->name('contact_us');   
+});
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware(['verified'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
     // Users
-    Route::get('/users',[AdminController::class,'index'])->name('users');
-    Route::post('/user/store',[AdminController::class,'store'])->name('profile.store');
-    Route::patch('/user/update',[AdminController::class,'update'])->name('profile.update.user');
-    Route::post('/user/delete',[AdminController::class,'destory'])->name('profile.destory');
+    Route::get('/users', [AdminController::class, 'index'])->name('users');
+    Route::post('/user/store', [AdminController::class, 'store'])->name('profile.store');
+    Route::patch('/user/update', [AdminController::class, 'update'])->name('profile.update.user');
+    Route::post('/user/delete', [AdminController::class, 'destory'])->name('profile.destory');
     // Roles
-    Route::get('/roles',[RoleController::class,'index'])->name('roles');
-    Route::post('/role/store',[RoleController::class,'store'])->name('roles.store');
-    Route::patch('/role/update',[RoleController::class,'update'])->name('roles.update');
-    Route::post('/role/delete',[RoleController::class,'destroy'])->name('roles.destory');
+    Route::get('/roles', [RoleController::class, 'index'])->name('roles');
+    Route::post('/role/store', [RoleController::class, 'store'])->name('roles.store');
+    Route::patch('/role/update', [RoleController::class, 'update'])->name('roles.update');
+    Route::post('/role/delete', [RoleController::class, 'destroy'])->name('roles.destory');
     // Permissions
-    Route::get('/permissions',[PermissionController::class,'index'])->name('permissions');
-    Route::post('/permission/store',[PermissionController::class,'store'])->name('permissions.store');
-    
+    Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions');
+    Route::post('/permission/store', [PermissionController::class, 'store'])->name('permissions.store');
+
     // Category
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
     Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
@@ -55,11 +64,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/category/{id}', [CategoryController::class, 'destory'])->name('category.destory');
 });
 
-Route::get('/checkout' ,[checkoutController::class,'checkout'])->name('checkout');
-Route::get('/cart' ,[checkoutController::class,'view_cart'])->name('view_cart');
-Route::get('/features', [HomepageController::class, 'features'])->name('features');   
-Route::get('/feature', [HomepageController::class, 'singleFeature'])->name('single_feature');   
-Route::get('/contact-us', [HomepageController::class, 'contact_us'])->name('contact_us');   
-Route::post('/contact-us', [HomepageController::class, 'contact_email'])->name('contact_us');   
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
