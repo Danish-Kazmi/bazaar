@@ -19,7 +19,8 @@ class BrandController extends Controller
             'roles' => Auth::user()->can('role-list'),
             'permissions' => Auth::user()->can('permission-list'),
             'category' => Auth::user()->can('category-list'),
-            'brand' => Auth::user()->can('brand-list')
+            'brand' => Auth::user()->can('brand-list'),
+            'product' => Auth::user()->can('product-list')
         ];
     }
 
@@ -175,5 +176,20 @@ class BrandController extends Controller
         $brand->save();
 
         return response()->json(['message' => 'Brand deleted successfully'], 200);
+    }
+
+    public function get_brands_by_category($cate)
+    {
+        if (Category::find($cate)->count() == 0) {
+            return response()->json(['error'=> 'Category does not exist'],404);
+        }
+
+        // Fetch brands based on the selected category
+        $brands = Brand::where('active', 1)->where('is_deleted', 0)->whereHas('subCategories', function ($query) use ($cate) {
+            $query->where('sub_category_id', $cate);
+        })->get();
+
+        // Return the brands as JSON response
+        return response()->json($brands);
     }
 }

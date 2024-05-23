@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\checkoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -71,6 +72,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/brands/{id}', [BrandController::class, 'edit'])->name('brand.edit');
     Route::put('/brands/{id}', [BrandController::class, 'update'])->name('brand.update');
     Route::delete('/brands/{id}', [BrandController::class, 'destroy'])->name('brand.destroy');
+    Route::get('/get_brands_by_category/{cate}', [BrandController::class, 'get_brands_by_category'])->name('brand.category');
+
+    // Product
+    Route::get('/product', [ProductController::class, 'index'])->middleware('category')->name('product.index');
+    Route::post('/product', [ProductController::class, 'store'])->name('product.store');
+    Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->name('product.edit');
+    Route::put('/product/{id}', [ProductController::class, 'update'])->name('product.update');
+    Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
 });
 
 require __DIR__ . '/auth.php';

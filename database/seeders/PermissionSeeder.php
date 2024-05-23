@@ -28,6 +28,7 @@ class PermissionSeeder extends Seeder
             'user-delete',
             'category-list',
             'brand-list',
+            'product-list',
         ];
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);

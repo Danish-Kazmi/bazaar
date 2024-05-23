@@ -24,6 +24,10 @@ class ShareCategories
                 $query->where('active', true)
                     ->where('is_deleted', false);
             }])
+            ->with(['brands' => function ($query) {
+                $query->where('active', true)
+                    ->where('is_deleted', false);
+            }])
             ->get();
 
         Inertia::share('categories', $categories);

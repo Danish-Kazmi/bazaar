@@ -63,7 +63,8 @@ class RoleController extends Controller
                 'roles' => Auth::user()->can('role-list'),
                 'permissions' => Auth::user()->can('permission-list'),
                 'category' => Auth::user()->can('category-list'),
-                'brand' => Auth::user()->can('brand-list')
+                'brand' => Auth::user()->can('brand-list'),
+                'product' => Auth::user()->can('product-list')
             ];
         return $TagListPermissions;
      }
