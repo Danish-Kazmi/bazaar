@@ -41,7 +41,7 @@ export default {
 														<p class="close-menu"></p>
 														<a :href="route('features')" class="clearfix">
 															<strong>
-																Features
+																Hot Deal 
 															</strong>
 														
 														</a>
@@ -50,7 +50,7 @@ export default {
 														<p class="close-menu"></p>
 														<a class="clearfix">
 															<strong>
-																Colections
+																About
 															</strong>
 														
 														</a>
@@ -58,9 +58,9 @@ export default {
 													<li
 														class="item-style2 content-full feafute with-sub-menu hover">
 														<p class="close-menu"></p>
-														<a class="clearfix">
+														<a :href="route('contact_us')" class="clearfix">
 															<strong>
-																Accessories
+																Contact us
 															</strong>
 															
 														</a>
