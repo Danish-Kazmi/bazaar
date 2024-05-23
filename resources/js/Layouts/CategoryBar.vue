@@ -1,612 +1,140 @@
 <script>
+import { usePage } from '@inertiajs/vue3';
+
 export default {
     name: 'CategoryBar',
     data() {
         return {
-        dropdownshow: false,
-        dropdownshowtravel: false,
-        dropdownshowfashion: false,
-        };
+            categories: [],
+        }
     },
-    methods: {
-        toogleFunctionality(value) {
-            if (value == "eletronics") {
-                this.dropdownshowtravel = false;
-                this.dropdownshowfashion = false;
-                this.dropdownshow = !this.dropdownshow; // Toggle dropdown visibility
-            }
-            if(value == "travel") {
-                this.dropdownshowfashion = false;
-                this.dropdownshow = false;
-                this.dropdownshowtravel = !this.dropdownshowtravel;
-            }
-            if(value == "fashion") {
-                this.dropdownshow = false;
-                this.dropdownshowtravel = false;
-                this.dropdownshowfashion = !this.dropdownshowfashion;
-            }
-        },
+    mounted() {
+        const categories = usePage().props.categories;
+        this.categories = categories;
     },
 }
 </script>
 
 <template>
-    <!-- Header bottom-->
-    <div class="header-bottom hidden-compact">
+    <div class="header-center">
         <div class="container">
-            <div class="header-bottom-inner">
-                <div class="row">
-                    <div class="header-bottom-left menu-vertical col-md-3 col-sm-3 col-xs-3">
-                        <div class="megamenu-style-dev">
-                            <div class="responsive">
-                                <div class="so-vertical-menu no-gutter">
-                                    <nav class="navbar-default">
-                                        <div class=" container-megamenu  container   vertical  ">
-                                            <div id="menuHeading">
-                                                <div class="megamenuToogle-wrapper">
-                                                    <div class="megamenuToogle-pattern">
-                                                        <div class="container">
-                                                            <div>
-                                                                <span></span>
-                                                                <span></span>
-                                                                <span></span>
-                                                            </div>
-                                                            <span class="title-mega">
-                                                                All Categories
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="navbar-header">
-                                                <span class="title-navbar hidden-lg hidden-md"> All Categories </span>
-                                                <button type="button" id="show-verticalmenu" data-toggle="collapse"
-                                                    class="navbar-toggle">
-                                                    <span class="icon-bar"></span>
-                                                    <span class="icon-bar"></span>
-                                                    <span class="icon-bar"></span>
-                                                </button>
-                                            </div>
-                                            <div class="vertical-wrapper">
-                                                <span id="remove-verticalmenu" class="fa fa-times"></span>
-                                                <div class="megamenu-pattern">
-                                                    <div class="container">
-                                                        <ul class="megamenu" data-transition="slide"
-                                                            data-animationtime="300">
-                                                            <li class="item-vertical  style1">
-                                                                <p class='close-menu'></p>
-                                                                <a href="#" class="clearfix">
-                                                                    <span>
-                                                                        <strong><i class="icon icon1"></i><img
-                                                                                src="theme/image/catalog/demo/menu/icon/icon-6.png"
-                                                                                alt="">Hot Deal</strong>
-                                                                    </span>
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                class="item-vertical  vertical-style2 with-sub-menu hover">
-                                                                <p class='close-menu'></p>
-                                                                <a class="clearfix" @click="toogleFunctionality('eletronics')">
-                                                                    <span>
-                                                                        <strong><i class="icon  icon2"></i><img
-                                                                                src="theme/image/catalog/demo/menu/icon/icon-1.png"
-                                                                                alt="">Electronics</strong>
-                                                                    </span>
-                                                                    <b class='fa fa-caret-right' ></b>
-                                                                </a>
-                                                                <div class="bg-white ml-[100%] top-8 absolute" v-if="dropdownshow" style="width:890px">
-                                                                    <div class="content">
-                                                                        <div class="row">
-                                                                            <div class="col-sm-12">
-                                                                                <div class="html item-1">
-                                                                                    <div class="row">
-                                                                                        <div
-                                                                                            class="col-lg-7 col-md-7 col-sm-8">
-                                                                                            <div
-                                                                                                class="item-3 col-lg-6 col-md-6 icon-1">
-                                                                                                <a href="#"
-                                                                                                    title="Mobile &amp; Table">Mobile
-                                                                                                    &amp; Table</a>
-                                                                                                <ul>
-                                                                                                    <li>
-                                                                                                        <a href="#"
-                                                                                                            title="Laptops &amp; Tablets">Laptops
-                                                                                                            &amp;
-                                                                                                            Tablets</a>
-                                                                                                    </li>
-                                                                                                    <li>
-                                                                                                        <a href="#"
-                                                                                                            title="Computer Accessories">Computer
-                                                                                                            Accessories</a>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="item-3 col-lg-6 col-md-6 cat-child icon-2 parent">
-                                                                                                <a href="#"
-                                                                                                    title="Sound">Sound</a>
-                                                                                                <ul>
-                                                                                                    <li class="">
-                                                                                                        <a href="#"
-                                                                                                            title="Bluetooth Speakers">Bluetooth
-                                                                                                            Speakers</a>
-                                                                                                    </li>
-                                                                                                    <li class="">
-                                                                                                        <a href="#"
-                                                                                                            title="Wireless Speakers">Wireless
-                                                                                                            Speakers</a>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="item-3 col-lg-6 col-md-6 cat-child icon-3 parent">
-                                                                                                <a href="#"
-                                                                                                    title="Headphone">Headphone</a>
-                                                                                                <ul>
-                                                                                                    <li class="">
-                                                                                                        <a href="#"
-                                                                                                            title="VGA and CPU">VGA
-                                                                                                            and CPU</a>
-                                                                                                    </li>
-                                                                                                    <li class="">
-                                                                                                        <a href="#"
-                                                                                                            title="Desna Jacket">Desna
-                                                                                                            Jacket</a>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="item-3 col-lg-6 col-md-6 cat-child icon-4 parent">
-                                                                                                <a href="#"
-                                                                                                    title="Video &amp; Camera">Video
-                                                                                                    &amp; Camera</a>
-                                                                                                <ul>
-                                                                                                    <li class="">
-                                                                                                        <a href="#"
-                                                                                                            title="Camera New">Camera
-                                                                                                            New</a>
-                                                                                                    </li>
-                                                                                                    <li class="">
-                                                                                                        <a href="#"
-                                                                                                            title="Video You">Video
-                                                                                                            You</a>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="item-3 col-lg-6 col-md-6 cat-child icon-5 parent">
-                                                                                                <a href="#"
-                                                                                                    title="Mobile &amp; Table">USB
-                                                                                                    &amp; HDD</a>
-                                                                                                <ul>
-                                                                                                    <li class="">
-                                                                                                        <a href="#"
-                                                                                                            title="Usb Computer">USB
-                                                                                                            Computer</a>
-                                                                                                    </li>
-                                                                                                    <li class="">
-                                                                                                        <a href="#"
-                                                                                                            title="HDD Computer">HDD
-                                                                                                            Computer</a>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="item-3 col-lg-6 col-md-6 icon-6">
-                                                                                                <a href="#"
-                                                                                                    title="Cell &amp; Cable">Cell
-                                                                                                    &amp; Cable</a>
-                                                                                                <ul>
-                                                                                                    <li class="">
-                                                                                                        <a href="#"
-                                                                                                            title="Cell Computers">Cell
-                                                                                                            Computers</a>
-                                                                                                    </li>
-                                                                                                    <li class="">
-                                                                                                        <a href="#"
-                                                                                                            title="Cable Com">Cable
-                                                                                                            Com</a>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="item-3 col-lg-6 col-md-6 icon-7">
-                                                                                                <a href="#"
-                                                                                                    title="Cell &amp; Cable">Laptop</a>
-                                                                                                <ul>
-                                                                                                    <li class="">
-                                                                                                        <a href="#"
-                                                                                                            title="Computer Headsets">Computer
-                                                                                                            Headsets</a>
-                                                                                                    </li>
-                                                                                                    <li class="">
-                                                                                                        <a href="#"
-                                                                                                            title="Headphone Earpads">Headphone
-                                                                                                            Earpads</a>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="item-3 col-lg-6 col-md-6 cat-child icon-8 parent">
-                                                                                                <a href="#"
-                                                                                                    title="Case">Case</a>
-                                                                                                <ul>
-                                                                                                    <li class="">
-                                                                                                        <a href="#"
-                                                                                                            title="Case Computer">Case
-                                                                                                            Computer</a>
-                                                                                                    </li>
-                                                                                                    <li class="">
-                                                                                                        <a href="#"
-                                                                                                            title="Vafar Comfaoe">Vafar
-                                                                                                            Comfaoe</a>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div
-                                                                                            class="img-banner col-lg-5 col-md-5 col-sm-4">
-                                                                                            <a href="#"><img
-                                                                                                    src="theme/image/catalog/demo/menu/img-static-megamenu-h.jpg"
-                                                                                                    alt="banner"></a>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li
-                                                                class="item-vertical  vertical-style3 with-sub-menu hover">
-                                                                <p class='close-menu'></p>
-                                                                <a href="#" class="clearfix" @click="toogleFunctionality('travel')">
-                                                                    <span>
-                                                                        <strong><i class="icon  icon3"></i><img
-                                                                                src="theme/image/catalog/demo/menu/icon/icon-2.png"
-                                                                                alt="">Travel &amp; Vacation</strong>
-                                                                    </span>
-                                                                    <b class='fa fa-caret-right'></b>
-                                                                </a>
-                                                                <div class="bg-white ml-[100%] top-8 absolute" v-if="dropdownshowtravel" style="width:495px">
-                                                                    <div class="content">
-                                                                        <div class="row">
-                                                                            <div class="col-sm-5">
-                                                                                <div class="html item-1">
-                                                                                    <div class="label-vertical">
-                                                                                        <div><a href="#"><span
-                                                                                                    class="color1">Hot!</span>Best
-                                                                                                Sellers </a></div>
-                                                                                        <div><a href="#"><span
-                                                                                                    class="color2">New!</span>New
-                                                                                                Arrivals </a> </div>
-                                                                                        <div><a href="#"><span
-                                                                                                    class="color3">Sale!</span>Special
-                                                                                                Offers </a></div>
-                                                                                    </div>
-                                                                                    <ul>
-                                                                                        <li class=""><a href="#">Hotel
-                                                                                                &amp; Resort</a></li>
-                                                                                        <li class=""><a href="#"
-                                                                                                title="Best Tours">Best
-                                                                                                Tours</a></li>
-                                                                                        <li class=""><a href="#"
-                                                                                                title="Vacation Rentanls">Vacation
-                                                                                                Rentanls</a></li>
-                                                                                        <li class=""><a href="#"
-                                                                                                title="Infocus">Infocus</a>
-                                                                                        </li>
-                                                                                        <li class=""><a href="#"
-                                                                                                title="Restaurants">Restaurants</a>
-                                                                                        </li>
-                                                                                        <li class=""><a href="#"
-                                                                                                title="Travel Trekking">Travel
-                                                                                                Trekking</a></li>
-                                                                                        <li class=""><a href="#"
-                                                                                                title="Destinations">Destinations</a>
-                                                                                        </li>
-                                                                                        <li class=""><a href="#"
-                                                                                                title="Cruises">Cruises</a>
-                                                                                        </li>
-                                                                                        <li class=""><a href="#"
-                                                                                                title="Water Parks">Water
-                                                                                                Parks</a></li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-sm-7">
-                                                                                <div class="html ">
-                                                                                    <div class="row img-banner">
-                                                                                        <a href="#"><img
-                                                                                                src="theme/image/catalog/demo/menu/ver-img-1.jpg"
-                                                                                                alt="banner"></a>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li class="item-vertical ">
-                                                                <p class='close-menu'></p>
-                                                                <a href="#" class="clearfix" >
-                                                                    <span>
-                                                                        <strong><i class="icon  icon4"></i><img
-                                                                                src="theme/image/catalog/demo/menu/icon/icon-3.png"
-                                                                                alt="">Book Stationery</strong>
-                                                                    </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="item-vertical   item-style3 with-sub-menu hover">
-                                                                <p class='close-menu'></p>
-                                                                <a class="clearfix" @click="toogleFunctionality('fashion')">
-                                                                    <span>
-                                                                        <strong><i class="icon  icon5"></i><img
-                                                                                src="theme/image/catalog/demo/menu/icon/icon-4.png"
-                                                                                alt="">Fashion</strong>
-                                                                    </span>
-                                                                    <b class='fa fa-caret-right'></b>
-                                                                </a>
-                                                                <div class="bg-white ml-[100%] top-8 absolute p-10" v-if="dropdownshowfashion" style="width:650px">
-                                                                    <div class="content">
-                                                                        <div class="row">
-                                                                            <div class="col-sm-12">
-                                                                                <div class="categories ">
-                                                                                    <div class="row">
-                                                                                        <div
-                                                                                            class="col-sm-4 static-menu">
-                                                                                            <div class="menu">
-                                                                                                <ul>
-                                                                                                    <li>
-                                                                                                        <a href="#"
-                                                                                                            onclick="window.location = '#';"
-                                                                                                            class="main-menu">Digital
-                                                                                                            &amp;
-                                                                                                            Electronics</a>
-                                                                                                        <ul>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Girls
-                                                                                                                    New</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Bluetooth
-                                                                                                                    Speakers</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Pearl
-                                                                                                                    mens</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Digital
-                                                                                                                    &amp;
-                                                                                                                    Electronics</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="h#"
-                                                                                                                    onclick="window.location = '#';">Book
-                                                                                                                    Stationery</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Bluetooth
-                                                                                                                    Speakers</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Cell
-                                                                                                                    &amp;
-                                                                                                                    Cable</a>
-                                                                                                            </li>
-                                                                                                        </ul>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div
-                                                                                            class="col-sm-4 static-menu">
-                                                                                            <div class="menu">
-                                                                                                <ul>
-                                                                                                    <li>
-                                                                                                        <a href="#"
-                                                                                                            onclick="window.location = '#';"
-                                                                                                            class="main-menu">Fashion
-                                                                                                            &amp;
-                                                                                                            Accessories</a>
-                                                                                                        <ul>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Pearl
-                                                                                                                    mens</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Girls
-                                                                                                                    New</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = 'h#';">Pearl
-                                                                                                                    Jewelry</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Spa
-                                                                                                                    &amp;
-                                                                                                                    Massage</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Digital
-                                                                                                                    &amp;
-                                                                                                                    Electronics</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Camera
-                                                                                                                    New</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Bags</a>
-                                                                                                            </li>
-                                                                                                        </ul>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div
-                                                                                            class="col-sm-4 static-menu">
-                                                                                            <div class="menu">
-                                                                                                <ul>
-                                                                                                    <li>
-                                                                                                        <a href="#"
-                                                                                                            onclick="window.location = '#';"
-                                                                                                            class="main-menu">Western
-                                                                                                            Wear</a>
-                                                                                                        <ul>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Video
-                                                                                                                    You</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Pearl
-                                                                                                                    mens</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Dress
-                                                                                                                    Ladies</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Jean</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Web
-                                                                                                                    Cameras</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Laptop
-                                                                                                                    &amp;
-                                                                                                                    Notebook</a>
-                                                                                                            </li>
-                                                                                                            <li><a href="#"
-                                                                                                                    onclick="window.location = '#';">Dress
-                                                                                                                    Ladies</a>
-                                                                                                            </li>
-                                                                                                        </ul>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="border"></div>
-                                                                        <div class="row">
-                                                                            <div class="col-sm-12">
-                                                                                <div class="link banner-full">
-                                                                                    <img src="theme/image/catalog/demo/menu/menu_bg2.jpg"
-                                                                                        alt="" style="width: 100%;">
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li class="item-vertical ">
-                                                                <p class='close-menu'></p>
-                                                                <a class="clearfix">
-                                                                    <span>
-                                                                        <strong><i class="icon  icon6"></i><img
-                                                                                src="theme/image/catalog/demo/menu/icon/icon-5.png"
-                                                                                alt="">Sport &amp; Entertaiment</strong>
-                                                                    </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="item-vertical ">
-                                                                <p class='close-menu'></p>
-                                                                <a href="#" class="clearfix">
-                                                                    <span>
-                                                                        <strong><i class="icon  icon9"></i><img
-                                                                                src="theme/image/catalog/demo/menu/icon/icon-9.png"
-                                                                                alt="">Real House</strong>
-                                                                    </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="item-vertical ">
-                                                                <p class='close-menu'></p>
-                                                                <a href="#" class="clearfix">
-                                                                    <span>
-                                                                        <strong><img
-                                                                                src="theme/image/catalog/demo/menu/icon/icon-6.png"
-                                                                                alt="">Mom &amp; Baby</strong>
-                                                                    </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="item-vertical ">
-                                                                <p class='close-menu'></p>
-                                                                <a href="#" class="clearfix">
-                                                                    <span>
-                                                                        <strong><img
-                                                                                src="theme/image/catalog/demo/menu/icon/icon-7.png"
-                                                                                alt="">Food &amp; Restaurant</strong>
-                                                                    </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="item-vertical ">
-                                                                <p class='close-menu'></p>
-                                                                <a href="#" class="clearfix">
-                                                                    <span>
-                                                                        <strong><img
-                                                                                src="theme/image/catalog/demo/menu/icon/icon-9.png"
-                                                                                alt="">Jewelry &amp; Watches</strong>
-                                                                    </span>
-                                                                    <span class="labelho"></span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-1 col-xs-3 header-menu">
+                    <div class="megamenu-style-dev megamenu-dev">
+                        <div class="responsive">
+                            <nav class="navbar-default">
+                                <div class="container-megamenu horizontal">
+                                    <div class="navbar-header">
+                                        <button type="button" id="show-megamenu" data-toggle="collapse"
+                                            class="navbar-toggle">
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                        </button>
+                                    </div>
+                                    <div class="megamenu-wrapper">
+                                        <span id="remove-megamenu" class="fa fa-times"></span>
+                                        <div class="megamenu-pattern">
+                                            <div class="container">
+                                                <ul class="megamenu" data-transition="slide" data-animationtime="500">
+                                                    <li class="full-width menu-home with-sub-menu hover">
+                                                        <p class="close-menu"></p>
+                                                        <a :href="route('home')" class="clearfix">
+                                                            <strong>
+                                                                Home
+                                                            </strong>
+                                                        </a>
+
+                                                    </li>
+                                                    <li class="full-width option2 with-sub-menu hover">
+                                                        <p class="close-menu"></p>
+                                                        <a class="clearfix">
+                                                            <strong>
+                                                                Features
+                                                            </strong>
+
+                                                        </a>
+                                                    </li>
+                                                    <li class="item-style1 content-full with-sub-menu hover">
+                                                        <p class="close-menu"></p>
+                                                        <a class="clearfix">
+                                                            <strong>
+                                                                Colections
+                                                            </strong>
+
+                                                        </a>
+                                                    </li>
+                                                    <li class="item-style2 content-full feafute with-sub-menu hover">
+                                                        <p class="close-menu"></p>
+                                                        <a class="clearfix">
+                                                            <strong>
+                                                                Accessories
+                                                            </strong>
+
+                                                        </a>
+                                                    </li>
+                                                    <li class="deal-h5 hidden">
+                                                        <p class="close-menu"></p>
+                                                        <a href="#" class="clearfix">
+                                                            <strong>
+                                                                <img src="theme/image/catalog/demo/menu/hot-block.png"
+                                                                    alt="">Buy This Theme!
+                                                            </strong>
+                                                        </a>
+                                                    </li>
+                                                    <li class="deal-h5 hidden">
+                                                        <p class="close-menu"></p>
+                                                        <a href="#" class="clearfix">
+                                                            <strong>
+                                                                Today Deals
+                                                            </strong>
+                                                        </a>
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </div>
-                                    </nav>
+                                    </div>
                                 </div>
-                            </div>
+                            </nav>
                         </div>
                     </div>
-                   
-
-
-                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 col_anla  slider-right">
-						<div class="row row_ci4f  ">
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_dg1b block block_1">
-                                <div class="module sohomepage-slider so-homeslider-ltr">
-                                    <div class="modcontent">
-                                    <div id="sohomepage-slider1">
-                                        <div class="so-homeslider yt-content-slider full_slider owl-carousel owl-theme"
-                                           >
-                                        <div class="item">
-                                            <img class="responsive" src="theme/image/catalog/demo/slider/home1/slider.jpg" alt="slide 1">
-                                        </div>
-                                        </div>
-                                    </div>
-                                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-11 col-xs-9 header-search">
+                    <div id="sosearchpro" class="sosearchpro-wrapper so-search ">
+                        <form method="GET" action="index.php">
+                            <div id="search0" class="search input-group form-group">
+                                <div class="select_category filter_type  icon-select">
+                                    <select class="no-border" name="category_id">
+                                        <option value="">All Categories </option>
+                                        <template v-for="(category, id) in categories" :key="id">
+                                            <option :value="category.id">
+                                                {{ category.category_name }}
+                                            </option>
+                                            <template v-if="category.sub_categories && category.sub_categories.length">
+                                                <template v-for="subCategory in category.sub_categories" :key="subCategory.id">
+                                                <option :value="subCategory.id">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ subCategory.category_name }}
+                                                </option>
+                                                </template>
+                                            </template>
+                                        </template>
+                                    </select>
                                 </div>
-							</div>
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_hmsd block block_2">
-								<div class="home1-banner-1 clearfix">
-									<div class="item-1 col-lg-6 col-md-6 col-sm-6 banners">
-										<div>
-											<a title="Static Image" href="#"><img
-													src="theme/image/catalog/demo/banners/home1/bn-1.jpg"
-													alt="Static Image"></a>
-										</div>
-									</div>
-									<div class="item-2 col-lg-6 col-md-6 col-sm-6 banners">
-										<div>
-											<a title="Static Image" href="#"><img
-													src="theme/image/catalog/demo/banners/home1/bn-2.jpg"
-													alt="Static Image"></a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-                
+                                <input class="autosearch-input form-control" type="text" value="" size="50"
+                                    autocomplete="off" placeholder="Search" name="search">
+
+                                <span class="input-group-btn">
+                                    <button type="submit" class="button-search btn btn-default btn-lg"
+                                        name="submit_search"><i class="fa fa-search"></i><span
+                                            class="hidden">Search</span></button>
+                                </span>
+                            </div>
+                            <input type="hidden" name="route" value="product/search">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
 </template>

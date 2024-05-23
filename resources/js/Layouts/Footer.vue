@@ -1,9 +1,16 @@
 <script>
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import { Link } from '@inertiajs/vue3';
+
 export default {
 	name: 'Footer',
 	props: {
 		collapse: Boolean
-	}
+	},
+    components: {
+		Link,
+        ApplicationLogo,
+	},
 }
 </script>
 
@@ -24,8 +31,8 @@ export default {
 												<div class="popup-title page-heading">
 													<i class="fa fa-paper-plane-o"></i> Sign up to Newsletter
 												</div>
-												<div class="newsletter_promo">And receive <span>$29</span>coupon for
-													first shopping</div>
+												<div class="newsletter_promo">And receive <span>5%</span>discount on
+													every order</div>
 											</div>
 											<div class="modcontent block_content">
 												<form method="post" id="signup" name="signup"
@@ -54,26 +61,18 @@ export default {
 									<div class="footer-social">
 										<h3 class="block-title">Follow us</h3>
 										<div class="socials">
-											<a href="https://www.facebook.com/SmartAddons.page" class="facebook"
+											<a href="https://www.facebook.com" class="facebook"
 												target="_blank">
 												<i class="fa fa-facebook"></i>
 												<p>on</p>
 												<span class="name-social">Facebook</span>
 											</a>
-											<a href="https://twitter.com/smartaddons" class="twitter" target="_blank">
+											<a href="https://twitter.com" class="twitter" target="_blank">
 												<i class="fa fa-twitter"></i>
 												<p>on</p>
 												<span class="name-social">Twitter</span>
 											</a>
-											<a href="https://plus.google.com/u/0/+SmartAddons-Joomla-Magento-WordPress/posts"
-												class="google" target="_blank">
-												<i class="fa fa-google-plus"></i>
-												<p>on</p>
-												<span class="name-social">Google +</span>
-											</a>
-											<a href="#" class="dribbble" target="_blank"><i class="fa fa-dribbble"
-													aria-hidden="true"></i></a>
-											<a href="#" class="instagram" target="_blank">
+											<a href="https://www.instagram.com" class="instagram" target="_blank">
 												<i class="fa fa-instagram" aria-hidden="true"></i>
 												<p>on</p>
 												<span class="name-social">Instagram</span>
@@ -85,7 +84,7 @@ export default {
 						</div>
 					</div>
 				</div>
-				<div class="container-fluid page-builder-ltr">
+				<!-- <div class="container-fluid page-builder-ltr">
 					<div class="row row_z1do  footer--center  row-color ">
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_x6fe  float_none container">
 							<div class="row row_wprs  ">
@@ -350,36 +349,31 @@ export default {
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="container-fluid page-builder-ltr">
+				</div> -->
+				<div class="container-fluid page-builder-ltr" style="border-top: 3px solid #ff5e00;">
 					<div class="row row_qof8  footer--center3  row-color ">
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_up4v  float_none ">
 							<div class="row row_fymn  ">
 								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_1yf0">
-									<div class="contactinfo">
-										<h4 class="title-footer">Our Contact</h4>
-										<p>They key is to have every key, the key to open every door. We will never see
+									<div class="contactinfo" style="padding-top: 15px">
+										<Link href="/">
+											<ApplicationLogo />
+										</Link>
+										<p style="margin-top: 15px">They key is to have every key, the key to open every door. We will never see
 											them</p>
 										<div class="content-footer">
 											<div class="address">
 												<label><i class="fa fa-map-marker" aria-hidden="true"></i></label>
-												<span>100 S Manhattan St, Amarillo, TX 79104, North America</span>
+												<span>Virtual University, Lahore, Punjab, PO 54840, Pakistan</span>
 											</div>
 											<div class="phone">
 												<label><i class="fa fa-phone" aria-hidden="true"></i></label>
-												<span>( +123 )4 567 890 - ( +123 )4 567 899</span>
+												<span>( +123 )4 567 890</span>
 											</div>
 											<div class="email">
 												<label><i class="fa fa-envelope"></i></label>
-												<a href="#">Contact@TopDeals.Com</a>
+												<a href="#">support@bazaar.com</a>
 											</div>
-										</div>
-									</div>
-									<div class="payment-html">
-										<div>
-											<a class="app-1" href="#">google store</a>
-											<a class="app-2" href="#">apple store</a>
-											<a class="app-3" href="#">window store</a>
 										</div>
 									</div>
 								</div>
@@ -399,12 +393,10 @@ export default {
 		<div class="footer-bottom ">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-7  col-sm-7 copyright">
-						So TopDeal © 2016 - 2018. All Rights Reserved. Designed by <a
-							href="http://www.opencartworks.com/" target="_blank">OpenCartWorks.Com</a>
-					</div>
-					<div class="col-md-5 col-sm-5 paymen">
-						<img src="theme/image/catalog/demo/payment/payments-1.png" alt="imgpayment">
+					<div class="col-md-12 col-sm-12 copyright text-center">
+						<span>So TopDeal © 2016 - 2018. All Rights Reserved. Designed by
+							<a href="https://vulms.vu.edu.pk" target="_blank">Virtual University</a>
+						</span>
 					</div>
 				</div>
 			</div>

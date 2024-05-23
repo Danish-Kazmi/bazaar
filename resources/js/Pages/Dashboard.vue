@@ -19,14 +19,14 @@ defineProps({
 <template>
     <Head title="Dashboard" />
     <AuthenticatedLayout :can="can" >
-        <div class="w-full container-fluid mt-10">
+        <div class="w-full container-fluid mt-10 px-5">
             <div class="flex md:flex-row flex-col justify-between items-center gap-4">
-                <div class="w-full  mb-4">
-                    <div class="bg-primary shadow text-white rounded-lg overflow-hidden">
+                <div class="w-full mb-4">
+                    <div class="shadow rounded-lg overflow-hidden bg-white">
                         <div class="p-4">
                             <div class="flex items-center">
                                 <div class="w-1/4 text-center">
-                                    <span class="inline-block rounded-full bg-primary-light p-2">
+                                    <span class="inline-block rounded-full bg-black p-3">
                                         <svg
                                             class="flex-shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
@@ -35,42 +35,41 @@ defineProps({
                                         </svg>
                                     </span>
                                 </div>
-                                <div class="w-3/4">
-                                    <p class="text-xs text-white font-bold mb-1">Users</p>
+                                <div class="w-full flex flex-col justify-around">
+                                    <span class="text-xs text-black font-bold">Users</span>
                                     <span class="text-lg">{{users}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="w-full mb-4 bg-[#ffffff]">
-                    <div class="shadow rounded-lg overflow-hidden">
+                <div class="w-full mb-4">
+                    <div class="shadow rounded-lg overflow-hidden bg-white">
                         <div class="p-4">
                             <div class="flex items-center">
                                 <div class="w-1/4 text-center">
-                                    <span class="inline-block rounded-full bg-primary p-2">
-                                        <svg
-                                        class="flex-shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                    <span class="inline-block rounded-full bg-black p-3">
+                                        <svg class="flex-shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-                                        <path
-                                            d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
-                                    </svg>
+                                            <path
+                                                d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
+                                        </svg>
                                     </span>
                                 </div>
-                                <div class="w-3/4">
-                                    <p class="text-xs text-black font-bold mb-1">Roles</p>
-                                    <span class="text-lg">{{ roles }}</span>
+                                <div class="w-full flex flex-col justify-around">
+                                    <span class="text-xs text-black font-bold">Roles</span>
+                                    <span class="text-lg">{{roles}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="w-full mb-4 bg-[#ffffff]">
-                    <div class="shadow rounded-lg overflow-hidden">
+                <div class="w-full mb-4">
+                    <div class="shadow rounded-lg overflow-hidden bg-white">
                         <div class="p-4">
                             <div class="flex items-center">
                                 <div class="w-1/4 text-center">
-                                    <span class="inline-block rounded-full bg-primary p-2">
+                                    <span class="inline-block rounded-full bg-black p-3">
                                         <svg
                                             class="flex-shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                             version="1.1" viewBox="0 0 1600 1600" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
@@ -92,11 +91,9 @@ defineProps({
                                         </svg>
                                     </span>
                                 </div>
-                                <div class="w-3/4">
-                                    <p class="text-xs text-black font-bold mb-1">Permissions</p>
-                                    <div class="flex items-center">
-                                        <span class="text-lg mr-2">{{permissions}}</span>
-                                    </div>
+                                <div class="w-full flex flex-col justify-around">
+                                    <span class="text-xs text-black font-bold">Permissions</span>
+                                    <span class="text-lg">{{permissions}}</span>
                                 </div>
                             </div>
                         </div>

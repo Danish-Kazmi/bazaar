@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex md:flex-row flex-col md:justify-between items-center md:ml-56">
+  <nav class="flex md:flex-row flex-col md:justify-between items-center md:ml-52">
     <button type="button" class="block md:hidden navbar-toggler text-muted mt-2 p-0 mr-6 collapseSidebar" @click="toggleSidebar">
       <i class="fe fe-menu navbar-toggler-icon"></i>
     </button>

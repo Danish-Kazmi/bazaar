@@ -1,12 +1,14 @@
 <script>
 import { Head } from '@inertiajs/vue3';
 import BazaarLayout from '@/Layouts/BazaarLayout.vue';
+import BannerHP from '@/Pages/Bazaar/Homepage/BannerHP.vue'
 
 export default {
     name: 'HomePage',
     components: {
 		Head,
         BazaarLayout,
+		BannerHP
 	},
 }
 </script>
@@ -15,7 +17,7 @@ export default {
     <Head title="Welcome" />
 
     <BazaarLayout>
-        
+        <BannerHP />
 		<section id="box-link1" class="section-style">
 			<div class="container page-builder-ltr">
 				<div class="row row-style row_a1">
