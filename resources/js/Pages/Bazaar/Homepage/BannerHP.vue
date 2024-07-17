@@ -22,6 +22,7 @@ export default {
         },
         openCategory(id) {
             console.log(`Navigate to category with ID: ${id}`);
+            this.$inertia.get('/products', { category_id: id });
         },
     },
 }

@@ -29,14 +29,15 @@ use Inertia\Inertia;
 Route::middleware(['category'])->group(function () {
     Route::get('/', [HomepageController::class, 'index'])->name('home');
 
-    Route::get('/checkout' ,[checkoutController::class,'checkout'])->name('checkout');
-    Route::get('/cart' ,[checkoutController::class,'view_cart'])->name('view_cart');
-    Route::get('/pros', [HomepageController::class, 'pros'])->name('pros');   
-    Route::get('/products', [HomepageController::class, 'products'])->name('products');   
-    Route::get('/single-product/{product}', [HomepageController::class, 'singleProduct'])->name('single_product');   
-    Route::get('/contact-us', [HomepageController::class, 'contactUs'])->name('contact_us');   
-    Route::post('/contact-us', [HomepageController::class, 'contact_email'])->name('contact_us');   
-    Route::get('/about-us', [HomepageController::class, 'aboutUs'])->name('about_us');   
+    Route::get('/checkout', [checkoutController::class, 'checkout'])->name('checkout');
+    Route::get('/cart', [checkoutController::class, 'view_cart'])->name('view_cart');
+    Route::get('/pros', [HomepageController::class, 'pros'])->name('pros');
+    Route::get('/products', [HomepageController::class, 'products'])->name('products');
+    Route::get('/api/products', [HomepageController::class, 'getProducts'])->name('getProducts');
+    Route::get('/product/{product_id}', [HomepageController::class, 'singleProduct'])->name('single_product');
+    Route::get('/contact-us', [HomepageController::class, 'contact_us'])->name('contact_us');
+    Route::post('/contact-us', [HomepageController::class, 'contact_email'])->name('contact_us');
+    Route::get('/about-us', [HomepageController::class, 'aboutUs'])->name('about_us');
 });
 
 Route::middleware('auth')->group(function () {
@@ -66,7 +67,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/category/{id}', [CategoryController::class, 'edit'])->name('category.edit');
     Route::post('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
     Route::delete('/category/{id}', [CategoryController::class, 'destory'])->name('category.destory');
-    
+
     // Brand
     Route::get('/brands', [BrandController::class, 'index'])->middleware('category')->name('brand.index');
     Route::post('/brands', [BrandController::class, 'store'])->name('brand.store');

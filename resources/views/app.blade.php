@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- Favicon
         ============================================ -->
-    <link rel="shortcut icon" type="image/png" href="theme/ico/favicon-16x16.png" />
+    <link rel="shortcut icon" type="image/png" href="/theme/ico/favicon-16x16.png" />
     
 	<!-- Google web fonts
 				 ============================================ -->
@@ -52,29 +52,29 @@
 		<!-- Include Libs & Plugins
 			============================================ -->
 		<!-- Placed at the end of the document so the pages load faster -->
-	<script type="text/javascript" src="theme/js/jquery-2.2.4.min.js" ></script>
-	<script type="text/javascript" src="theme/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="theme/js/themejs/so_megamenu.js" ></script>
-	<script type="text/javascript" src="theme/js/owl-carousel/owl.carousel.js" ></script>
-	<script type="text/javascript" src="theme/js/slick-slider/slick.js"  ></script>
-	<script type="text/javascript" src="theme/js/themejs/libs.js" ></script>
-	<script type="text/javascript" src="theme/js/unveil/jquery.unveil.js"></script>
-	<script type="text/javascript" src="theme/js/countdown/jquery.countdown.min.js"></script>
-	<script type="text/javascript" src="theme/js/dcjqaccordion/jquery.dcjqaccordion.2.8.min.js"></script>
-	<script type="text/javascript" src="theme/js/datetimepicker/moment.js" ></script>
-	<script type="text/javascript" src="theme/js/datetimepicker/bootstrap-datetimepicker.min.js" ></script>
-	<script type="text/javascript" src="theme/js/jquery-ui/jquery-ui.min.js"  ></script>
-	<script type="text/javascript" src="theme/js/modernizr/modernizr-2.6.2.min.js" ></script>
-	<script type="text/javascript" src="theme/js/minicolors/jquery.miniColors.min.js" ></script>
-	<script type="text/javascript" src="theme/js/jquery.nav.js" ></script>
-	<script type="text/javascript" src="theme/js/quickview/jquery.magnific-popup.min.js" ></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/jquery-2.2.4.min.js" ></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/themejs/so_megamenu.js" ></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/owl-carousel/owl.carousel.js" ></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/slick-slider/slick.js"  ></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/themejs/libs.js" ></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/unveil/jquery.unveil.js"></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/countdown/jquery.countdown.min.js"></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/dcjqaccordion/jquery.dcjqaccordion.2.8.min.js"></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/datetimepicker/moment.js" ></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/datetimepicker/bootstrap-datetimepicker.min.js" ></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/jquery-ui/jquery-ui.min.js"  ></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/modernizr/modernizr-2.6.2.min.js" ></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/minicolors/jquery.miniColors.min.js" ></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/jquery.nav.js" ></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/quickview/jquery.magnific-popup.min.js" ></script>
 	<!-- Theme files
 				 ============================================ -->
-	<script type="text/javascript" src="theme/js/themejs/application.js" defer></script>
-	<script type="text/javascript" src="theme/js/themejs/homepage.js" defer></script>
-	<script type="text/javascript" src="theme/js/themejs/custom_h1.js" defer></script>
-	<script type="text/javascript" src="theme/js/themejs/addtocart.js" ></script>
-	<script type="text/javascript" src="theme/js/themejs/nouislider.js" defer></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/themejs/application.js" defer></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/themejs/homepage.js" defer></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/themejs/custom_h1.js" defer></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/themejs/addtocart.js" ></script>
+	<script type="text/javascript" src="http://bazaar.test/theme/js/themejs/nouislider.js" defer></script>
 </body>
 
 </html>

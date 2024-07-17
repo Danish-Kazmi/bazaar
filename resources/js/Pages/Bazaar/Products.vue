@@ -8,6 +8,75 @@ export default {
 		Head,
 		BazaarLayout,
 	},
+	props: {
+        brands: Array,
+        category_id: String,
+	},
+	data() {
+		return {
+			products: [],
+			total: 0,
+			skip: 0,
+			take: 12,
+            currentPage: 1,
+			totalPages: 1,
+			sort: 'default',
+			search: '',
+            categoryId: null,
+			brandId: null,
+            minPrice: 0,  // Set default min price
+            maxPrice: 100000, // Set default max price
+		};
+	},
+	mounted() {
+        this.categoryId = this.category_id;
+		this.fetchProducts();
+	},
+	methods: {
+		fetchProducts() {
+			axios.get('/api/products', {
+				params: {
+					skip: this.skip,
+					take: this.take,
+					sort: this.sort,
+					search: this.search,
+                    category_id: this.categoryId,
+					brand_id: this.brandId,
+                    min_price: this.minPrice,
+                    max_price: this.maxPrice,
+				}
+			})
+			.then(response => {
+				this.products = response.data.products;
+				this.total = response.data.total;
+				this.totalPages = Math.ceil(this.total / this.take);
+			})
+			.catch(error => {
+				console.error('There was an error fetching the products!', error);
+			});
+		},
+		changePage(page) {
+			this.currentPage = page;
+			this.skip = (this.currentPage - 1) * this.take;
+			this.fetchProducts();
+		},
+		addToCart(productId) {
+			// Add to cart logic
+		},
+		addToWishlist(productId) {
+			// Add to wishlist logic
+		},
+		addToCompare(productId) {
+			// Add to compare logic
+		},
+		changeBrand(b_id) {
+			this.brandId = b_id;
+			this.fetchProducts();
+		},
+		resetAll() {
+            this.$inertia.get('/products');
+		}
+	}
 }
 </script>
 
@@ -16,20 +85,15 @@ export default {
 	<Head title="Products" />
 
 	<BazaarLayout>
-
-		<!-- Main Cont</BazaarLayout>ainer  -->
+		<!-- Main Container  -->
 		<div class="breadcrumbs">
 			<div class="container">
-				<div class="title-breadcrumb">
-					Products
-				</div>
 				<ul class="breadcrumb-cate">
-					<li><a href="index.html"><i class="fa fa-home"></i></a></li>
-					<li><a href="#">Products</a></li>
+					<li><a :href="route('home')"><i class="fa fa-home"></i></a></li>
+					<li><a href="javascript:void(0);">Products</a></li>
 				</ul>
 			</div>
 		</div>
-
 		<div class="container product-detail">
 			<div class="row">
 				<aside class="col-md-3 col-sm-4 col-xs-12 content-aside left_column sidebar-offcanvas">
@@ -52,11 +116,12 @@ export default {
 												<div class="so-option-container">
 													<div class="input-group">
 														<input type="text" class="form-control" name="text_search"
-															id="text_search" value="">
+															id="text_search" v-model="search">
 														<div class="input-group-btn">
 															<button class="btn btn-default" type="button"
-																id="submit_text_search"><i
-																	class="fa fa-search"></i></button>
+																id="submit_text_search" @click="fetchProducts">
+																<i class="fa fa-search"></i>
+															</button>
 														</div>
 													</div>
 												</div>
@@ -64,7 +129,7 @@ export default {
 										</div>
 									</div>
 								</li>
-								<li class="so-filter-options" data-option="Size">
+								<!-- <li class="so-filter-options" data-option="Size">
 									<div class="so-filter-heading">
 										<div class="so-filter-heading-text">
 											<span>Size</span>
@@ -117,49 +182,28 @@ export default {
 											</div>
 										</div>
 									</div>
-								</li>
-								<li class="so-filter-options" data-option="Manufacturer">
+								</li> -->
+								<li class="so-filter-options" data-option="Brand">
 									<div class="so-filter-heading">
 										<div class="so-filter-heading-text">
-											<span>Manufacturer</span>
+											<span>Brand</span>
 										</div>
 										<i class="fa fa-chevron-down"></i>
 									</div>
 
 									<div class="so-filter-content-opts">
 										<div class="so-filter-content-opts-container">
-											<div class="so-filter-option opt-select  opt_enable"
-												data-type="manufacturer" data-manufacturer_value="8"
-												data-count_product="4" data-list_product="30,58,61,105">
-												<div class="so-option-container">
-													<div class="option-input">
-														<span class="fa fa-square-o">
-														</span>
-													</div>
-													<label><img src="theme/image/placeholder.png"
-															style="width: 20px; height: 20px;"> Apple</label>
-													<div class="option-count ">
-														<span>4</span>
-														<i class="fa fa-times"></i>
+											<template v-for="brand in brands" :key="brand.id">
+												<div class="so-filter-option opt-select opt_enable"
+													:data-type="Brand" :data-brand_id="brand.id" @click="changeBrand(brand.id)">
+													<div class="so-option-container">
+														<label style="display: flex; gap: 15px; align-items:center;">
+															<img :src="`${brand.Image}`" style="width: 40px; height: 40px;">
+															{{ brand.brand_name }}
+														</label>
 													</div>
 												</div>
-											</div>
-											<div class="so-filter-option opt-select  opt_enable"
-												data-type="manufacturer" data-manufacturer_value="10"
-												data-count_product="1" data-list_product="68">
-												<div class="so-option-container">
-													<div class="option-input">
-														<span class="fa fa-square-o">
-														</span>
-													</div>
-													<label><img src="theme/image/placeholder.png"
-															style="width: 20px; height: 20px;"> Sony</label>
-													<div class="option-count ">
-														<span>1</span>
-														<i class="fa fa-times"></i>
-													</div>
-												</div>
-											</div>
+											</template>
 										</div>
 									</div>
 								</li>
@@ -177,27 +221,27 @@ export default {
 													<div class="so-filter-option so-filter-price">
 														<div class="content_min_max">
 															<div class="put-min put-min_max">
-																$ <input type="number" class="input_min form-control"
-																	value="74" min="74" max="1202">
+																$ <input type="number" class="input_min form-control" @blur="fetchProducts()"
+																	v-model="minPrice" min="0" max="9999999999" style="width: 80px; max-width: 80px;">
 															</div>
 															<div class="put-max put-min_max">
-																$ <input type="number" class="input_max form-control"
-																	value="1202" min="74" max="1202">
-															</div>
-														</div>
-														<div class="content_scroll">
-															<div id="slider-range" </div>
+																$ <input type="number" class="input_max form-control" @blur="fetchProducts()"
+																	v-model="maxPrice" min="1" max="10000000000" style="width: 80px; max-width: 80px;">
 															</div>
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
+									</div>
 								</li>
 							</ul>
 							<div class="clear_filter">
-								<a href="javascript:;" class="btn btn-default inverse" id="btn_resetAll">
-									<span class="hidden fa fa-times" aria-hidden="true"></span> Reset All
+								<!-- <a href="javascript:void(0);" class="btn btn-default w-1/2" id="btn_applyAll">
+									<span class="hidden fa fa-times" aria-hidden="true"></span> Apply
+								</a> -->
+								<a href="javascript:void(0);" class="btn btn-default inverse w-1/2" id="btn_resetAll" @click="resetAll()">
+									<span class="hidden fa fa-times" aria-hidden="true"></span> Reset
 								</a>
 							</div>
 						</div>
@@ -427,16 +471,8 @@ export default {
 					</div>
 				</aside>
 				<div id="content" class="col-md-9 col-sm-12 col-xs-12">
-					<div class="module banners-effect-9 form-group">
-						<div class="banners">
-							<div>
-								<a href="#"><img src="theme/image/catalog/demo/category/men-cat.jpg"></a>
-							</div>
-						</div>
-					</div>
 					<a href="javascript:void(0)" class="open-sidebar hidden-lg hidden-md"><i
 							class="fa fa-bars"></i>Sidebar</a>
-
 					<div class="products-category">
 						<div class="form-group clearfix">
 							<h3 class="title-category ">Products</h3>
@@ -444,782 +480,237 @@ export default {
 						<div class="products-category">
 							<div class="product-filter filters-panel">
 								<div class="row">
-
-
 									<div class="short-by-show form-inline text-right col-md-12 col-sm-12">
 										<div class="form-group short-by">
 											<label class="control-label" for="input-sort">Sort By:</label>
-											<select id="input-sort" class="form-control"
-												onchange="location = this.value;">
-												<option value="" selected="selected">Default</option>
-												<option value="">Name (A - Z)</option>
-												<option value="">Name (Z - A)</option>
-												<option value="">Price (Low &gt; High)</option>
-												<option value="">Price (High &gt; Low)</option>
-												<option value="">Rating (Highest)</option>
-												<option value="">Rating (Lowest)</option>
-												<option value="">Model (A - Z)</option>
-												<option value="">Model (Z - A)</option>
+											<select v-model="sort" @change="fetchProducts" class="form-control" id="input-sort">
+												<option value="default" selected>Default</option>
+												<option value="name_asc">Name (A - Z)</option>
+												<option value="name_desc">Name (Z - A)</option>
+												<option value="price_low_high">Price (Low > High)</option>
+												<option value="price_high_low">Price (High > Low)</option>
+												<!-- <option value="rating_high_low">Rating (Highest)</option>
+												<option value="rating_low_high">Rating (Lowest)</option> -->
 											</select>
 										</div>
 										<div class="form-group">
 											<label class="control-label" for="input-limit">Show:</label>
-											<select id="input-limit" class="form-control"
-												onchange="location = this.value;">
-												<option value="" selected="selected">12</option>
-												<option value="">25</option>
-												<option value="">50</option>
-												<option value="">75</option>
-												<option value="">100</option>
+											<select v-model="take" @change="fetchProducts" class="form-control" id="input-limit" >
+												<option value="12" selected>12</option>
+												<option value="25">25</option>
+												<option value="50">50</option>
+												<option value="75">75</option>
+												<option value="100">100</option>
 											</select>
 										</div>
-										<div class="form-group product-compare"><a id="compare-total"
-												class="btn btn-default">Product Compare (0)</a></div>
+										<!-- <div class="form-group product-compare">
+											<a id="compare-total" class="btn btn-default">Product Compare (0)</a>
+										</div> -->
 									</div>
 
 								</div>
 							</div>
 							<div class="products-list grid">
 								<div class="row">
-									<div class="product-layout col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
-										<div class="product-item-container">
-											<div class="left-block">
-												<div class="product-image-container  second_img  ">
-													<a :href="route('products')"
-														title="Lorem Ipsum dolor at vero eos et iusto odi  with Premium ">
-														<img src="theme/image/catalog/demo/product/electronic/26.jpg "
-															alt="Lorem Ipsum dolor at vero eos et iusto odi  with Premium "
-															title="Lorem Ipsum dolor at vero eos et iusto odi  with Premium "
-															class="img-1 img-responsive">
-														<img src="theme/image/catalog/demo/product/electronic/30.jpg"
-															alt="Lorem Ipsum dolor at vero eos et iusto odi  with Premium "
-															title="Lorem Ipsum dolor at vero eos et iusto odi  with Premium "
-															class="img-2 img-responsive">
-													</a>
-												</div>
-												<div class="countdown_box">
-													<div class="countdown_inner">
+									<template v-for="product in products" :key="product.id">
+										<div class="product-layout col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
+											<div class="product-item-container">
+												<span class="absolute px-2 py-1 z-10 bg-white text-[#ff5e00] border border-[#ff5e00] text-sm top-3 left-5 rounded-md font-semibold cursor-pointer">{{ product.Category }}</span>
+												<div class="left-block">
+													<div class="product-image-container second_img w-full h-[250px] items-center justify-center border shadow overflow-hidden rounded-md" style="display: flex !important">
+														<a :href="route('single_product', product.id)"
+															:title="product.Product_Name">
+															<img :src="product.Image1"
+																:alt="product.Product_Name"
+																:title="product.Product_Name"
+																class="img-1 img-responsive">
+															<img v-if="product.Image2"
+																:src="product.Image2"
+																:alt="product.Product_Name"
+																:title="product.Product_Name"
+																class="img-2 img-responsive">
+														</a>
 													</div>
-												</div>
-												<div class="box-label">
-													<span class="label-product label-sale">
-														Sale
-													</span>
-												</div>
-											</div>
-
-											<div class="right-block">
-												<div class="caption">
-													<h4><a :href="route('products')">Lorem Ipsum dolor at vero eos et
-															iusto odi with Premium </a></h4>
-													<div class="total-price">
-														<div class="price price-left">
-															<span class="price-new">$98.00 </span> <span
-																class="price-old">$122.00 </span>
-														</div>
-														<div class="price-sale price-right">
-															<span class="discount">-20%
-																<strong>OFF</strong>
-															</span>
-														</div>
-													</div>
-													<div class="description item-desc hidden">
-														<p>The 30-inch Apple Cinema HD Display delivers an amazing 2560
-															x 1600 pixel resolution. Designed specifically for the
-															creative professional, this display provides more space for
-															easier access to all the.. </p>
-													</div>
-													<div class="list-block hidden">
-														<button class="addToCart" type="button" data-toggle="tooltip"
-															title="" onclick="cart.add('30 ', '1 ');"
-															data-original-title="Add to Cart "><span>Add to Cart
-															</span></button>
-														<button class="wishlist btn-button" type="button"
-															data-toggle="tooltip" title=""
-															onclick="wishlist.add('30 ');"
-															data-original-title="Add to Wish List "><i
-																class="fa fa-heart-o"></i></button>
-														<button class="compare btn-button" type="button"
-															data-toggle="tooltip" title="" onclick="compare.add('30 ');"
-															data-original-title="Compare this Product "><i
-																class="fa fa-retweet"></i></button>
-													</div>
-												</div>
-												<div class="button-group">
-													<a class="quickview iframe-link visible-lg btn-button"
-														data-fancybox-type="iframe" href="quickview.html"> <i
-															class="fa fa-search"></i> </a>
-													<button class="wishlist btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="wishlist.add('105');"
-														data-original-title="Add to Wish List"><i
-															class="fa fa-heart-o"></i></button>
-													<button class="compare btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="compare.add('105');"
-														data-original-title="Compare this Product"><i
-															class="fa fa-retweet"></i></button>
-													<button class="addToCart btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="cart.add('105', '2');"
-														data-original-title="Add to Cart"><span class="hidden">Add to
-															Cart </span></button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="product-layout col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
-										<div class="product-item-container">
-											<div class="left-block">
-												<div class="product-image-container  second_img  ">
-													<a :href="route('products')"
-														title="Computer Science saepe eveniet ut et volu redae ">
-														<img src="theme/image/catalog/demo/product/electronic/23.jpg "
-															alt="Computer Science saepe eveniet ut et volu redae "
-															title="Computer Science saepe eveniet ut et volu redae "
-															class="img-1 img-responsive">
-														<img src="theme/image/catalog/demo/product/electronic/15.jpg"
-															alt="Computer Science saepe eveniet ut et volu redae "
-															title="Computer Science saepe eveniet ut et volu redae "
-															class="img-2 img-responsive">
-													</a>
 													<div class="box-label">
-														<span class="label-product label-sale">
+														<span class="label-product label-sale"
+																v-if="product.Sale_Price">
 															Sale
 														</span>
 													</div>
 												</div>
-												<div class="countdown_box">
-													<div class="countdown_inner">
-													</div>
-												</div>
-											</div>
-											<div class="right-block">
-												<div class="caption">
-													<h4><a :href="route('products')">Computer Science saepe eveniet ut
-															et volu redae </a></h4>
-													<div class="total-price">
-														<div class="price price-left">
-															<span class="price-new">$119.60 </span> <span
-																class="price-old">$122.00 </span>
-														</div>
-														<div class="price-sale price-right">
-															<span class="discount">-2%
-																<strong>OFF</strong>
-															</span>
-														</div>
-													</div>
 
-													<div class="description item-desc hidden">
-														<p>Born to be worn.
-
-															Clip on the worlds most wearable music player and take up to
-															240 songs with you anywhere. Choose from five colors
-															including four new hues to make your musical fashion
-															statement... </p>
-													</div>
-													<div class="list-block hidden">
-														<button class="addToCart" type="button" data-toggle="tooltip"
-															title="" onclick="cart.add('30 ', '1 ');"
-															data-original-title="Add to Cart "><span>Add to Cart
-															</span></button>
-														<button class="wishlist btn-button" type="button"
-															data-toggle="tooltip" title=""
-															onclick="wishlist.add('30 ');"
-															data-original-title="Add to Wish List "><i
-																class="fa fa-heart-o"></i></button>
-														<button class="compare btn-button" type="button"
-															data-toggle="tooltip" title="" onclick="compare.add('30 ');"
-															data-original-title="Compare this Product "><i
-																class="fa fa-retweet"></i></button>
-													</div>
-												</div>
-												<div class="button-group">
-													<a class="quickview iframe-link visible-lg btn-button"
-														data-fancybox-type="iframe"> <i class="fa fa-search"></i> </a>
-													<button class="wishlist btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="wishlist.add('58');"
-														data-original-title="Add to Wish List"><i
-															class="fa fa-heart-o"></i></button>
-													<button class="compare btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="compare.add('58');"
-														data-original-title="Compare this Product"><i
-															class="fa fa-retweet"></i></button>
-													<button class="addToCart btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="cart.add('58', '1');"
-														data-original-title="Add to Cart"><span class="hidden">Add to
-															Cart </span></button>
-												</div>
-											</div>
-
-										</div>
-									</div>
-									<div class="clearfix visible-sm-block"></div>
-									<div class="product-layout  col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
-										<div class="product-item-container">
-											<div class="left-block">
-												<div class="product-image-container  second_img  ">
-													<a title="Compact Portable Charger External ">
-														<img src="theme/image/catalog/demo/product/electronic/22.jpg "
-															alt="Compact Portable Charger External "
-															title="Compact Portable Charger External "
-															class="img-1 img-responsive">
-														<img src="theme/image/catalog/demo/product/electronic/23.jpg"
-															alt="Compact Portable Charger External "
-															title="Compact Portable Charger External "
-															class="img-2 img-responsive">
-													</a>
-													<div class="box-label">
-														<span class="label-product label-sale">
-															Sale
-														</span>
-													</div>
-												</div>
-												<div class="countdown_box">
-													<div class="countdown_inner">
-													</div>
-												</div>
-											</div>
-											<div class="right-block">
-												<div class="caption">
-													<h4><a :href="route('products')">Compact Portable Charger External
-														</a></h4>
-													<div class="total-price">
-														<div class="price price-left">
-															<span class="price-new">$962.00 </span> <span
-																class="price-old">$1,202.00 </span>
+												<div class="right-block">
+													<div class="caption">
+														<h4>
+															<a :href="route('single_product', product.id)">
+																{{ product.Product_Name }} ({{ product.Product_Code }})
+															</a>
+														</h4>
+														<div class="total-price" :class="{ 'no-sale': !product.Sale_Price }">
+															<div class="price price-left">
+																<span class="price-new">
+																	${{ product.Sale_Price ? product.Sale_Price : product.Price }}
+																</span>
+																<span class="price-old" v-if="product.Sale_Price">
+																	${{ product.Price }}
+																</span>
+															</div>
+															<div class="price-sale price-right"
+																v-if="product.Sale_Price">
+																<span class="discount">-{{ Math.round(((product.Price -
+																	product.Sale_Price) / product.Price) * 100) }}%
+																	<strong>OFF</strong>
+																</span>
+															</div>
 														</div>
-														<div class="price-sale price-right">
-															<span class="discount">-20%
-																<strong>OFF</strong>
-															</span>
+														<div class="list-block">
+															<button class="addToCart btn-button" type="button"
+																data-toggle="tooltip" title=""
+																@click="addToCart(product.id)"
+																data-original-title="Add to Cart">
+																<span class="hidden">Add to Cart</span>
+															</button>
+															<button class="wishlist btn-button" type="button"
+																data-toggle="tooltip" title=""
+																@click="addToWishlist(product.id)"
+																data-original-title="Add to Wish List ">
+																<i class="fa fa-heart-o"></i>
+															</button>
+															<button class="compare btn-button" type="button"
+																data-toggle="tooltip" title=""
+																@click="addToCompare(product.id)"
+																data-original-title="Compare this Product ">
+																<i class="fa fa-retweet"></i>
+															</button>
 														</div>
 													</div>
-													<div class="description item-desc hidden">
-														<p>Born to be worn.
-
-															Clip on the worlds most wearable music player and take up to
-															240 songs with you anywhere. Choose from five colors
-															including four new hues to make your musical fashion
-															statement... </p>
-													</div>
-													<div class="list-block hidden">
-														<button class="addToCart" type="button" data-toggle="tooltip"
-															title="" onclick="cart.add('30 ', '1 ');"
-															data-original-title="Add to Cart "><span>Add to Cart
-															</span></button>
-														<button class="wishlist btn-button" type="button"
-															data-toggle="tooltip" title=""
-															onclick="wishlist.add('30 ');"
-															data-original-title="Add to Wish List "><i
-																class="fa fa-heart-o"></i></button>
-														<button class="compare btn-button" type="button"
-															data-toggle="tooltip" title="" onclick="compare.add('30 ');"
-															data-original-title="Compare this Product "><i
-																class="fa fa-retweet"></i></button>
-													</div>
-												</div>
-												<div class="button-group">
-													<a class="quickview iframe-link visible-lg btn-button"
-														data-fancybox-type="iframe" href="quickview.html"> <i
-															class="fa fa-search"></i> </a>
-													<button class="wishlist btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="wishlist.add('61');"
-														data-original-title="Add to Wish List"><i
-															class="fa fa-heart-o"></i></button>
-													<button class="compare btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="compare.add('61');"
-														data-original-title="Compare this Product"><i
-															class="fa fa-retweet"></i></button>
-													<button class="addToCart btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="cart.add('61', '1');"
-														data-original-title="Add to Cart"><span class="hidden">Add to
-															Cart </span></button>
 												</div>
 											</div>
 										</div>
-									</div>
-									<div class="clearfix visible-lg-block"></div>
-									<div class="product-layout  col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
-										<div class="product-item-container">
-											<div class="left-block">
-												<div class="product-image-container  second_img  ">
-													<a :href="route('products')"
-														title="Compact Portable Charger (Power Bank) with Premium ">
-														<img src="theme/image/catalog/demo/product/electronic/19.jpg "
-															alt="Compact Portable Charger (Power Bank) with Premium "
-															title="Compact Portable Charger (Power Bank) with Premium "
-															class="img-1 img-responsive">
-														<img src="theme/image/catalog/demo/product/electronic/2.jpg"
-															alt="Compact Portable Charger (Power Bank) with Premium "
-															title="Compact Portable Charger (Power Bank) with Premium "
-															class="img-2 img-responsive">
-													</a>
-													<div class="box-label">
-														<span class="label-product label-sale">
-															Sale
-														</span>
-													</div>
-												</div>
-												<div class="countdown_box">
-													<div class="countdown_inner">
-													</div>
-												</div>
-											</div>
-											<div class="right-block">
-												<div class="caption">
-													<h4><a :href="route('products')">Compact Portable Charger (Power
-															Bank) with Premium </a></h4>
-													<div class="total-price">
-														<div class="price price-left">
-															<span class="price-new">$74.00 </span> <span
-																class="price-old">$241.99 </span>
-														</div>
-														<div class="price-sale price-right">
-															<span class="discount">-70%
-																<strong>OFF</strong>
-															</span>
-														</div>
-													</div>
-													<div class="description item-desc hidden">
-														<p>Samsung Galaxy Tab 10.1, is the world’s thinnest tablet,
-															measuring 8.6 mm thickness, running with Android 3.0
-															Honeycomb OS on a 1GHz dual-core Tegra 2 processor, similar
-															to its younger brother S.. </p>
-													</div>
-													<div class="list-block hidden">
-														<button class="addToCart" type="button" data-toggle="tooltip"
-															title="" onclick="cart.add('30 ', '1 ');"
-															data-original-title="Add to Cart "><span>Add to Cart
-															</span></button>
-														<button class="wishlist btn-button" type="button"
-															data-toggle="tooltip" title=""
-															onclick="wishlist.add('30 ');"
-															data-original-title="Add to Wish List "><i
-																class="fa fa-heart-o"></i></button>
-														<button class="compare btn-button" type="button"
-															data-toggle="tooltip" title="" onclick="compare.add('30 ');"
-															data-original-title="Compare this Product "><i
-																class="fa fa-retweet"></i></button>
-													</div>
-												</div>
-												<div class="button-group">
-													<a class="quickview iframe-link visible-lg btn-button"
-														data-fancybox-type="iframe" href="quickview.html"> <i
-															class="fa fa-search"></i> </a>
-													<button class="wishlist btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="wishlist.add('66');"
-														data-original-title="Add to Wish List"><i
-															class="fa fa-heart-o"></i></button>
-													<button class="compare btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="compare.add('66');"
-														data-original-title="Compare this Product"><i
-															class="fa fa-retweet"></i></button>
-													<button class="addToCart btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="cart.add('66', '1');"
-														data-original-title="Add to Cart"><span class="hidden">Add to
-															Cart </span></button>
-												</div>
-											</div>
-
-										</div>
-									</div>
-									<div class="clearfix visible-sm-block"></div>
-									<div class="product-layout  col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
-										<div class="product-item-container">
-											<div class="left-block">
-												<div class="product-image-container  second_img  ">
-													<a :href="route('products')"
-														title="Compact Portable Charger (External Battery) T23 ">
-														<img src="theme/image/catalog/demo/product/electronic/17.jpg "
-															alt="Compact Portable Charger (External Battery) T23 "
-															title="Compact Portable Charger (External Battery) T23 "
-															class="img-1 img-responsive">
-														<img src="theme/image/catalog/demo/product/electronic/15.jpg"
-															alt="Compact Portable Charger (External Battery) T23 "
-															title="Compact Portable Charger (External Battery) T23 "
-															class="img-2 img-responsive">
-													</a>
-												</div>
-											</div>
-											<div class="box-label">
-											</div>
-											<div class="right-block">
-												<div class="caption">
-													<h4><a :href="route('products')">Compact Portable Charger (External
-															Battery) T23 </a></h4>
-													<div class="total-price">
-														<div class="price price-left">
-															<span class="price-new">$1,202.00 </span>
-														</div>
-														<div class="price-sale price-right">
-														</div>
-													</div>
-													<div class="description item-desc hidden">
-														<p>Unprecedented power. The next generation of processing
-															technology has arrived. Built into the newest VAIO notebooks
-															lies Intel's latest, most powerful innovation yet: Intel®
-															Centrino® 2 pr.. </p>
-													</div>
-													<div class="list-block hidden">
-														<button class="addToCart" type="button" data-toggle="tooltip"
-															title="" onclick="cart.add('30 ', '1 ');"
-															data-original-title="Add to Cart "><span>Add to Cart
-															</span></button>
-														<button class="wishlist btn-button" type="button"
-															data-toggle="tooltip" title=""
-															onclick="wishlist.add('30 ');"
-															data-original-title="Add to Wish List "><i
-																class="fa fa-heart-o"></i></button>
-														<button class="compare btn-button" type="button"
-															data-toggle="tooltip" title="" onclick="compare.add('30 ');"
-															data-original-title="Compare this Product "><i
-																class="fa fa-retweet"></i></button>
-													</div>
-												</div>
-												<div class="button-group">
-													<a class="quickview iframe-link visible-lg btn-button"
-														data-fancybox-type="iframe" href="quickview.html"> <i
-															class="fa fa-search"></i> </a>
-													<button class="wishlist btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="wishlist.add('68');"
-														data-original-title="Add to Wish List"><i
-															class="fa fa-heart-o"></i></button>
-													<button class="compare btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="compare.add('68');"
-														data-original-title="Compare this Product"><i
-															class="fa fa-retweet"></i></button>
-													<button class="addToCart btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="cart.add('68', '1');"
-														data-original-title="Add to Cart"><span class="hidden">Add to
-															Cart </span></button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="product-layout  col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
-										<div class="product-item-container">
-											<div class="left-block">
-												<div class="product-image-container  second_img  ">
-													<a :href="route('products')"
-														title="Compact Portable Charger (External Battery) ">
-														<img src="theme/image/catalog/demo/product/electronic/13.jpg "
-															alt="Compact Portable Charger (External Battery) "
-															title="Compact Portable Charger (External Battery) "
-															class="img-1 img-responsive">
-														<img src="theme/image/catalog/demo/product/electronic/15.jpg"
-															alt="Compact Portable Charger (External Battery) "
-															title="Compact Portable Charger (External Battery) "
-															class="img-2 img-responsive">
-													</a>
-													<div class="box-label">
-													</div>
-												</div>
-											</div>
-											<div class="right-block">
-												<div class="caption">
-													<h4><a :href="route('products')">Compact Portable Charger (External
-															Battery) </a></h4>
-													<div class="total-price">
-														<div class="price price-left">
-															<span class="price-new">$98.00 </span>
-														</div>
-														<div class="price-sale price-right">
-														</div>
-													</div>
-													<div class="description item-desc hidden">
-														<p>Engineered with pro-level features and performance, the
-															12.3-effective-megapixel D300 combines brand new
-															technologies with advanced features inherited from Nikon's
-															newly announced D3 professional .. </p>
-													</div>
-													<div class="list-block hidden">
-														<button class="addToCart" type="button" data-toggle="tooltip"
-															title="" onclick="cart.add('30 ', '1 ');"
-															data-original-title="Add to Cart "><span>Add to Cart
-															</span></button>
-														<button class="wishlist btn-button" type="button"
-															data-toggle="tooltip" title=""
-															onclick="wishlist.add('30 ');"
-															data-original-title="Add to Wish List "><i
-																class="fa fa-heart-o"></i></button>
-														<button class="compare btn-button" type="button"
-															data-toggle="tooltip" title="" onclick="compare.add('30 ');"
-															data-original-title="Compare this Product "><i
-																class="fa fa-retweet"></i></button>
-													</div>
-												</div>
-												<div class="button-group">
-													<a class="quickview iframe-link visible-lg btn-button"
-														data-fancybox-type="iframe" href="quickview.html"> <i
-															class="fa fa-search"></i> </a>
-													<button class="wishlist btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="wishlist.add('103');"
-														data-original-title="Add to Wish List"><i
-															class="fa fa-heart-o"></i></button>
-													<button class="compare btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="compare.add('103');"
-														data-original-title="Compare this Product"><i
-															class="fa fa-retweet"></i></button>
-													<button class="addToCart btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="cart.add('103', '1');"
-														data-original-title="Add to Cart"><span class="hidden">Add to
-															Cart </span></button>
-												</div>
-											</div>
-
-										</div>
-									</div>
-									<div class="clearfix visible-lg-block"></div>
-									<div class="product-layout  col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
-										<div class="product-item-container">
-											<div class="left-block">
-												<div class="product-image-container  second_img  ">
-													<a :href="route('products')"
-														title="Compact (External Battery Power Bank) with Premium ">
-														<img src="theme/image/catalog/demo/product/electronic/12.jpg "
-															alt="Compact (External Battery Power Bank) with Premium "
-															title="Compact (External Battery Power Bank) with Premium "
-															class="img-1 img-responsive">
-														<img src="theme/image/catalog/demo/product/electronic/2.jpg"
-															alt="Compact (External Battery Power Bank) with Premium "
-															title="Compact (External Battery Power Bank) with Premium "
-															class="img-2 img-responsive">
-													</a>
-												</div>
-											</div>
-											<div class="right-block">
-												<div class="caption">
-													<h4><a :href="route('products')">Compact (External Battery Power
-															Bank) with Premium </a></h4>
-													<div class="total-price">
-														<div class="price price-left">
-															<span class="price-new">$122.00 </span>
-														</div>
-														<div class="price-sale price-right">
-														</div>
-													</div>
-													<div class="description item-desc hidden">
-														<p>【Neckband Designed】: Around-the-Neck Wearing Style With
-															Body-contoured Fit. Made of ultra-light shape-memory alloy,
-															great for easy carrying and all day comfort. Ensures a 100%
-															comfortable fit especial.. </p>
-													</div>
-													<div class="list-block hidden">
-														<button class="addToCart" type="button" data-toggle="tooltip"
-															title="" onclick="cart.add('30 ', '1 ');"
-															data-original-title="Add to Cart "><span>Add to Cart
-															</span></button>
-														<button class="wishlist btn-button" type="button"
-															data-toggle="tooltip" title=""
-															onclick="wishlist.add('30 ');"
-															data-original-title="Add to Wish List "><i
-																class="fa fa-heart-o"></i></button>
-														<button class="compare btn-button" type="button"
-															data-toggle="tooltip" title="" onclick="compare.add('30 ');"
-															data-original-title="Compare this Product "><i
-																class="fa fa-retweet"></i></button>
-													</div>
-												</div>
-												<div class="button-group">
-													<a class="quickview iframe-link visible-lg btn-button"
-														data-fancybox-type="iframe" href="#"> <i
-															class="fa fa-search"></i> </a>
-													<button class="wishlist btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="wishlist.add('111');"
-														data-original-title="Add to Wish List"><i
-															class="fa fa-heart-o"></i></button>
-													<button class="compare btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="compare.add('111');"
-														data-original-title="Compare this Product"><i
-															class="fa fa-retweet"></i></button>
-													<button class="addToCart btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="cart.add('111', '1');"
-														data-original-title="Add to Cart"><span class="hidden">Add to
-															Cart </span></button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="product-layout  col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
-										<div class="product-item-container">
-											<div class="left-block">
-												<div class="product-image-container  second_img  ">
-													<a :href="route('products')"
-														title=" Magnetic Air Vent Phone Holder for iPhone 7 / 7 Plus ">
-														<img src="theme/image/catalog/demo/product/electronic/1.jpg "
-															alt=" Magnetic Air Vent Phone Holder for iPhone 7 / 7 Plus "
-															title=" Magnetic Air Vent Phone Holder for iPhone 7 / 7 Plus "
-															class="img-1 img-responsive">
-														<img src="theme/image/catalog/demo/product/electronic/10.jpg"
-															alt=" Magnetic Air Vent Phone Holder for iPhone 7 / 7 Plus "
-															title=" Magnetic Air Vent Phone Holder for iPhone 7 / 7 Plus "
-															class="img-2 img-responsive">
-													</a>
-												</div>
-												<div class="countdown_box">
-													<div class="countdown_inner">
-													</div>
-												</div>
-												<div class="box-label">
-													<span class="label-product label-sale">
-														Sale
-													</span>
-												</div>
-											</div>
-											<div class="right-block">
-												<div class="caption">
-													<h4><a :href="route('products')"> Magnetic Air Vent Phone Holder for
-															iPhone 7 / 7 Plus </a></h4>
-													<div class="total-price">
-														<div class="price price-left">
-															<span class="price-new">$98.00 </span> <span
-																class="price-old">$122.00 </span>
-														</div>
-														<div class="price-sale price-right">
-															<span class="discount">-20%
-																<strong>OFF</strong>
-															</span>
-														</div>
-													</div>
-													<div class="description item-desc hidden">
-														<p>【Neckband Designed】: Around-the-Neck Wearing Style With
-															Body-contoured Fit. Made of ultra-light shape-memory alloy,
-															great for easy carrying and all day comfort. Ensures a 100%
-															comfortable fit especial.. </p>
-													</div>
-													<div class="list-block hidden">
-														<button class="addToCart" type="button" data-toggle="tooltip"
-															title="" onclick="cart.add('30 ', '1 ');"
-															data-original-title="Add to Cart "><span>Add to Cart
-															</span></button>
-														<button class="wishlist btn-button" type="button"
-															data-toggle="tooltip" title=""
-															onclick="wishlist.add('30 ');"
-															data-original-title="Add to Wish List "><i
-																class="fa fa-heart-o"></i></button>
-														<button class="compare btn-button" type="button"
-															data-toggle="tooltip" title="" onclick="compare.add('30 ');"
-															data-original-title="Compare this Product "><i
-																class="fa fa-retweet"></i></button>
-													</div>
-												</div>
-												<div class="button-group">
-													<a class="quickview iframe-link visible-lg btn-button"
-														data-fancybox-type="iframe" href="#"> <i
-															class="fa fa-search"></i> </a>
-													<button class="wishlist btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="wishlist.add('30');"
-														data-original-title="Add to Wish List"><i
-															class="fa fa-heart-o"></i></button>
-													<button class="compare btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="compare.add('30');"
-														data-original-title="Compare this Product"><i
-															class="fa fa-retweet"></i></button>
-													<button class="addToCart btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="cart.add('30', '1');"
-														data-original-title="Add to Cart"><span class="hidden">Add to
-															Cart </span></button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="product-layout  col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
-										<div class="product-item-container">
-											<div class="left-block">
-												<div class="product-image-container  second_img  ">
-													<a :href="route('products')"
-														title="Portable  Compact Charger (External Battery) t45">
-														<img src="theme/image/catalog/demo/product/electronic/4.jpg "
-															alt=" Portable  Compact Charger (External Battery) t45"
-															title="Portable  Compact Charger (External Battery) t45"
-															class="img-1 img-responsive">
-														<img src="theme/image/catalog/demo/product/electronic/6.jpg"
-															alt="Portable  Compact Charger (External Battery) t45"
-															title="Portable  Compact Charger (External Battery) t45"
-															class="img-2 img-responsive">
-													</a>
-												</div>
-												<div class="box-label">
-
-												</div>
-											</div>
-											<div class="right-block">
-												<div class="caption">
-													<h4><a :href="route('products')">Portable Compact Charger (External
-															Battery) t45</a></h4>
-													<div class="total-price">
-														<div class="price price-left">
-															<span class="price-new">$1299.00</span>
-														</div>
-													</div>
-													<div class="description item-desc hidden">
-														<p>【Neckband Designed】: Around-the-Neck Wearing Style With
-															Body-contoured Fit. Made of ultra-light shape-memory alloy,
-															great for easy carrying and all day comfort. Ensures a 100%
-															comfortable fit especial.. </p>
-													</div>
-													<div class="list-block hidden">
-														<button class="addToCart" type="button" data-toggle="tooltip"
-															title="" onclick="cart.add('30 ', '1 ');"
-															data-original-title="Add to Cart "><span>Add to Cart
-															</span></button>
-														<button class="wishlist btn-button" type="button"
-															data-toggle="tooltip" title=""
-															onclick="wishlist.add('30 ');"
-															data-original-title="Add to Wish List "><i
-																class="fa fa-heart-o"></i></button>
-														<button class="compare btn-button" type="button"
-															data-toggle="tooltip" title="" onclick="compare.add('30 ');"
-															data-original-title="Compare this Product "><i
-																class="fa fa-retweet"></i></button>
-													</div>
-												</div>
-												<div class="button-group">
-													<a class="quickview iframe-link visible-lg btn-button"
-														data-fancybox-type="iframe" href="#"> <i
-															class="fa fa-search"></i> </a>
-													<button class="wishlist btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="wishlist.add('30');"
-														data-original-title="Add to Wish List"><i
-															class="fa fa-heart-o"></i></button>
-													<button class="compare btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="compare.add('30');"
-														data-original-title="Compare this Product"><i
-															class="fa fa-retweet"></i></button>
-													<button class="addToCart btn-button" type="button"
-														data-toggle="tooltip" title="" onclick="cart.add('30', '1');"
-														data-original-title="Add to Cart"><span class="hidden">Add to
-															Cart </span></button>
-												</div>
-											</div>
-										</div>
-									</div>
+									</template>
 								</div>
 							</div>
-
 							<div class="product-filter product-filter-bottom filters-panel">
 								<div class="col-sm-6 text-left">
 									<ul class="pagination">
-										<li class="active"><span>1</span>
+										<li :class="{ 'active': currentPage === page }" v-for="page in totalPages" @click="changePage(page)">
+											<span v-if="currentPage === page">{{ page }}</span>
+											<a v-else>{{ page }}</a>
 										</li>
-										<li><a href="#">2</a>
-										</li>
-										<li><a href="#">&gt;</a>
-										</li>
-										<li><a href="#">&gt;|</a>
-										</li>
+										<li @click="changePage(currentPage + 1)" v-if="currentPage < totalPages"><a>&gt;</a></li>
+										<li @click="changePage(totalPages)" v-if="currentPage < totalPages"><a>&gt;|</a></li>
 									</ul>
 								</div>
-								<div class="col-sm-6 text-right">Showing 1 to 9 of 9 (1 Pages)</div>
+								<div class="col-sm-6 text-right">Showing {{ skip + 1 }} to {{ Math.min(skip + take, total) }} of {{ total }} ({{ totalPages }} Pages)</div>
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>
 		</div>
-
-		<!-- //Main Container -->
-
-
-
 	</BazaarLayout>
 </template>
+
+<style scoped>
+.products-list.list-masonry .product-layout .product-item-container .right-block .caption h4,
+.products-list.grid .product-layout .product-item-container .right-block .caption h4 {
+    padding-bottom: 15px;
+    min-height: 60px; /* Ensure this height is sufficient for 2 lines of text */
+    max-height: 60px; /* Ensure this height is sufficient for 2 lines of text */
+    line-height: 1.2em; /* Adjust line height for better control */
+    overflow: hidden; /* Hide any text that overflows */
+    text-overflow: ellipsis; /* Add ellipsis (...) for overflowed text */
+    display: -webkit-box; /* Enable the use of -webkit-line-clamp */
+    -webkit-line-clamp: 2; /* Limit the text to 2 lines */
+    -webkit-box-orient: vertical; /* Specify vertical orientation */
+}
+
+.products-list.grid .product-layout .product-item-container .caption .total-price {
+	min-height: 50px;
+}
+.products-list.grid .product-layout .product-item-container .caption .total-price.no-sale {
+	min-height: 50px;
+	display: flex;
+	align-items: center;
+}
+.products-list.grid .product-layout .product-item-container .caption .list-block {
+	display: flex;
+    justify-content: space-evenly;
+	padding: 0 !important;
+	margin: 0 0 10px !important;
+}
+.products-list.grid .product-layout .product-item-container .caption .list-block .btn-button {
+	transform: none !important;
+    margin-bottom: 10px;
+    z-index: 5;
+    opacity: 1;
+    height: 35px;
+    width: 35px;
+    font-size: 14px;
+    line-height: 35px;
+    padding: 0;
+    text-align: center;
+    background: #ff5e00;
+    border: none;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 50%;
+    outline: none;
+    visibility: visible;
+	position: relative;
+}
+.products-list.grid .product-layout .product-item-container .right-block .caption .list-block .btn-button.addToCart:before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    width: 18px;
+    height: 18px;
+    color: white;
+    background: #ff5e00 url(theme/image/icon/icon-cart-2.png) no-repeat center center;
+    left: 9px;
+}
+.products-list.grid .product-layout .product-item-container .right-block .caption .list-block .btn-button.addToCart:hover:before {
+	color: #ff5e00;
+    background: #fff url(theme/image/icon/icon-cart-1.png) no-repeat center center;
+}
+.products-list.grid .product-layout .product-item-container .right-block .caption .list-block .btn-button {
+    color: white;
+}
+.products-list.grid .product-layout .product-item-container .right-block .caption .list-block .btn-button:hover {
+    border: 1px solid #ff5e00;
+    color: #ff5e00;
+	background-color: #fff;
+}
+.breadcrumbs {
+    margin-top: 0;
+    padding: 8px 0 7px;
+    margin-bottom: 30px;
+    color: #ff5e00;
+	background: none;
+	text-align: left;
+}
+.breadcrumbs .breadcrumb-cate li a {
+    color: #ff5e00;
+}
+.breadcrumbs .breadcrumb-cate li:not(:last-child):before {
+    content: "|";
+	color: #000;
+}
+#btn_applyAll {
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    border-radius: 3px;
+    background: #ff5e00;
+    border: #ff5e00;
+}
+#btn_applyAll:hover {
+	background: #555;
+}
+.price-right .discount {
+	width: 50px;
+}
+</style>

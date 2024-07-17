@@ -77,7 +77,7 @@ export default {
                                                         <p class="close-menu"></p>
                                                         <a href="#" class="clearfix">
                                                             <strong>
-                                                                <img src="theme/image/catalog/demo/menu/hot-block.png"
+                                                                <img src="http://bazaar.test/theme/image/catalog/demo/menu/hot-block.png"
                                                                     alt="">Buy This Theme!
                                                             </strong>
                                                         </a>

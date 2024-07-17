@@ -80,11 +80,12 @@ export default {
 										<tbody>
 											<tr>
 												<td class="text-center size-img-cart">
-													<a href="product.html"><img
-															src="theme/image/catalog/demo/product/travel/10-54x54.jpg"
+													<a href="product.html">
+														<img src="http://bazaar.test/theme/image/catalog/demo/product/travel/10-54x54.jpg"
 															alt="Bougainvilleas on Lombard Street,  San Francisco, Tokyo"
 															title="Bougainvilleas on Lombard Street,  San Francisco, Tokyo"
-															class="img-thumbnail"></a>
+															class="img-thumbnail">
+													</a>
 												</td>
 												<td class="text-left"><a href="product.html">Bougainvilleas on
 														Lombard Street, San Francisco, Tokyo</a>
@@ -105,7 +106,7 @@ export default {
 											<tr>
 												<td class="text-center size-img-cart">
 													<a href="product.html"><img
-															src="theme/image/catalog/demo/product/travel/2-54x54.jpg"
+															src="http://bazaar.test/theme/image/catalog/demo/product/travel/2-54x54.jpg"
 															alt="Canada Travel One or Two European Facials at  Studio"
 															title="Canada Travel One or Two European Facials at  Studio"
 															class="img-thumbnail"></a>
