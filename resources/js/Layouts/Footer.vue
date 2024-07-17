@@ -394,7 +394,7 @@ export default {
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12 col-sm-12 copyright text-center">
-						<span>So TopDeal © 2016 - 2018. All Rights Reserved. Designed by
+						<span>Bazaar © 2016 - 2018. All Rights Reserved. Designed by
 							<a href="https://vulms.vu.edu.pk" target="_blank">Virtual University</a>
 						</span>
 					</div>

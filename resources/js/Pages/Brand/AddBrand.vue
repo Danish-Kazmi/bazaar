@@ -57,7 +57,7 @@ export default {
                     Subcategories
                 </label>
                 <select v-model="selectedSubCategories" id="sub_categories" multiple
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    class="shadow appearance-none border rounded w-full pt-3 pb-14 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     <template v-for="(category, id) in categories" :key="id">
                         <option disabled :value="category.id">
                             {{ category.category_name }}

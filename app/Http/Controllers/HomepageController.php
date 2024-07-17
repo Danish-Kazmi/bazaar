@@ -11,21 +11,25 @@ class HomepageController extends Controller
     {
         return Inertia::render('Bazaar/Homepage');
     }
-    public function features()
+    public function pros()
     {
-        return Inertia::render('Bazaar/Features');
+        return Inertia::render('Bazaar/Pros');
     }
-    public function singleFeature()
+    public function products()
     {
-        return Inertia::render('Bazaar/singleFeature');
+        return Inertia::render('Bazaar/Products');
+    }
+    public function singleProduct()
+    {
+        return Inertia::render('Bazaar/SingleProduct');
     }
     public function contact_us()
     {
-        return Inertia::render('Bazaar/contact_us');
+        return Inertia::render('Bazaar/ContactUs');
     }
-    public function about_us()
+    public function aboutUs()
     {
-        return Inertia::render('Bazaar/about_us');
+        return Inertia::render('Bazaar/AboutUs');
     }
     public function contact_email(Request $request)
     {

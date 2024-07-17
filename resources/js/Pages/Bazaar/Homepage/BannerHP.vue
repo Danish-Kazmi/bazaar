@@ -17,12 +17,12 @@ export default {
         showSubCategory(id) {
             this.activeCategory = this.activeCategory === id ? null : id;
         },
+        hideSubCategory() {
+            this.activeCategory = null;
+        },
         openCategory(id) {
             console.log(`Navigate to category with ID: ${id}`);
         },
-        openCategory(id) {
-            console.log('Seacrh by ' + id);
-        }
     },
 }
 </script>
@@ -58,8 +58,7 @@ export default {
                                             </div>
                                             <div class="navbar-header">
                                                 <span class="title-navbar hidden-lg hidden-md"> All Categories </span>
-                                                <button type="button" id="show-verticalmenu" data-toggle="collapse"
-                                                    class="navbar-toggle">
+                                                <button type="button" id="show-verticalmenu" data-toggle="collapse" class="navbar-toggle">
                                                     <span class="icon-bar"></span>
                                                     <span class="icon-bar"></span>
                                                     <span class="icon-bar"></span>
@@ -69,50 +68,31 @@ export default {
                                                 <span id="remove-verticalmenu" class="fa fa-times"></span>
                                                 <div class="megamenu-pattern">
                                                     <div class="container">
-                                                        <ul class="megamenu" data-transition="slide"
-                                                            data-animationtime="300">
+                                                        <ul class="megamenu" data-transition="slide" data-animationtime="300">
                                                             <template v-for="(category, id) in categories" :key="id">
-                                                                <li class="item-vertical item-style3 with-sub-menu hover">
+                                                                <li class="item-vertical item-style3 with-sub-menu hover" @mouseenter="showSubCategory(category.id)" @mouseleave="hideSubCategory()">
                                                                     <p class="close-menu"></p>
-                                                                    <a href="javascript:void(0);" class="clearfix"
-                                                                        @click="showSubCategory(category.id)">
+                                                                    <a href="javascript:void(0);" class="clearfix">
                                                                         <span>
                                                                             <strong>
                                                                                 <i class="icon icon1"></i>
                                                                                 {{ category.category_name }}
                                                                             </strong>
                                                                         </span>
-                                                                        <b class="fa fa-caret-right"></b>
+                                                                        <b class="fa fa-caret-right" :class="{ '!text-[#ff5e00]' : activeCategory === category.id }"></b>
                                                                         <!-- <b :class="{'fa fa-caret-down': activeCategory === category.id, 'fa fa-caret-right': activeCategory !== category.id}"></b> -->
                                                                     </a>
-                                                                    <div v-if="activeCategory === category.id" class="bg-white ml-[100%] top-8 absolute p-10"
-                                                                        style="width:650px">
+                                                                    <div v-if="activeCategory === category.id" class="bg-white ml-[100%] top-0 absolute p-10 border-l-4 border-[#ff5e00] w-full">
                                                                         <div class="content">
                                                                             <div class="row">
                                                                                 <div class="col-sm-12">
-                                                                                    <div class="categories">
-                                                                                        <div class="row">
-                                                                                            <div
-                                                                                                class="col-sm-4 static-menu">
-                                                                                                <div class="menu">
-                                                                                                    <ul>
-                                                                                                        <template
-                                                                                                            v-if="category.sub_categories && category.sub_categories.length">
-                                                                                                            <li v-for="subCategory in category.sub_categories"
-                                                                                                                :key="subCategory.id">
-                                                                                                                <a href="javascript:void(0);"
-                                                                                                                    @click="openCategory(subCategory.id)">
-                                                                                                                    {{
-                                                                                                                    subCategory.category_name
-                                                                                                                    }}
-                                                                                                                </a>
-                                                                                                            </li>
-                                                                                                        </template>
-                                                                                                    </ul>
-                                                                                                </div>
+                                                                                    <template v-if="category.sub_categories && category.sub_categories.length">
+                                                                                        <template v-for="subCategory in category.sub_categories" :key="subCategory.id">
+                                                                                            <div @click="openCategory(subCategory.id)" class="hover:underline hover:cursor-pointer hover:text-[#FF5E00] hover:decoration-[#FF5E00]">
+                                                                                                {{ subCategory.category_name }}
                                                                                             </div>
-                                                                                        </div>
-                                                                                    </div>
+                                                                                        </template>
+                                                                                    </template>
                                                                                 </div>
                                                                             </div>
                                                                         </div>

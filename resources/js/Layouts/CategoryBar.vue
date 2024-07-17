@@ -48,7 +48,7 @@ export default {
                                                     </li>
                                                     <li class="full-width option2 with-sub-menu hover">
                                                         <p class="close-menu"></p>
-                                                        <a :href="route('features')" class="clearfix">
+                                                        <a :href="route('products')" class="clearfix">
                                                             <strong>
                                                                 Hot Deal
                                                             </strong>

@@ -31,11 +31,12 @@ Route::middleware(['category'])->group(function () {
 
     Route::get('/checkout' ,[checkoutController::class,'checkout'])->name('checkout');
     Route::get('/cart' ,[checkoutController::class,'view_cart'])->name('view_cart');
-    Route::get('/features', [HomepageController::class, 'features'])->name('features');   
-    Route::get('/feature', [HomepageController::class, 'singleFeature'])->name('single_feature');   
-    Route::get('/contact-us', [HomepageController::class, 'contact_us'])->name('contact_us');   
+    Route::get('/pros', [HomepageController::class, 'pros'])->name('pros');   
+    Route::get('/products', [HomepageController::class, 'products'])->name('products');   
+    Route::get('/single-product/{product}', [HomepageController::class, 'singleProduct'])->name('single_product');   
+    Route::get('/contact-us', [HomepageController::class, 'contactUs'])->name('contact_us');   
     Route::post('/contact-us', [HomepageController::class, 'contact_email'])->name('contact_us');   
-    Route::get('/about-us', [HomepageController::class, 'about_us'])->name('about_us');   
+    Route::get('/about-us', [HomepageController::class, 'aboutUs'])->name('about_us');   
 });
 
 Route::middleware('auth')->group(function () {

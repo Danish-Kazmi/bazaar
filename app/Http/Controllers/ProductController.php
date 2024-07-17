@@ -233,12 +233,12 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'brand_id' => $request->brand_id,
             'model' => $request->model,
-            'stock' => $request->stock,
-            'price' => $request->price,
-            'sale_price' => $request->sale_price,
+            'stock' => ($request->stock != null? $request->stock: 0),
+            'price' => ($request->price != null? $request->price: 0),
+            'sale_price' => ($request->sale_price != null? $request->sale_price: 0),
         ]);
             
-        if ($request->hasFile('image_path_')) {
+        if ($request->hasFile('image_path_0')) {
             // Existing images in the database
             $existingImages = $product->images->pluck('image_path')->toArray();
 
