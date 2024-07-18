@@ -26,7 +26,7 @@ defineProps({
     <Head title="Dashboard" />
     <AuthenticatedLayout :can="can" >
         <div class="w-full container-fluid mt-10 px-5">
-            <div class="flex md:flex-row flex-col justify-between items-center gap-4">
+            <div class="grid grid-cols-3 gap-4">
                     <div class="w-full mb-4" v-if="can.list.users">
                         <div class="shadow rounded-lg overflow-hidden bg-white">
                             <div class="p-4">
