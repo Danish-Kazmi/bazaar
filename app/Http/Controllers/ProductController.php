@@ -129,6 +129,7 @@ class ProductController extends Controller
                 'Stock' => $product->Stock,
                 'New_Arrival' => $product->New_Arrival,
                 'Owner' => $product->Owner,
+                'reviews' => $product->id,
                 'buttons' => $product->id,
             ];
         }, $products);

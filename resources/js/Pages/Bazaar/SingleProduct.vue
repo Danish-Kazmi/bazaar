@@ -13,13 +13,62 @@ export default {
 	},
 	data() {
 		return {
+			reviews: 0,
+			totalReviews: 0,
 			currentImage: 'storage/product_images/demo.jpeg',
+			review: {
+				text: '',
+				rating: '',
+				product_id: '',
+				images: [], // Array to store selected images
+			}
 		}
 	},
 	mounted() {
 		this.currentImage = this.product.images.length > 0 ? this.product.images[0].path : 'storage/product_images/demo.jpeg';
+		this.review.product_id = this.product.id;
+		this.getReviews();
 	},
 	methods: {
+		handleFileUpload(event) {
+			const files = event.target.files;
+			for (let i = 0; i < files.length; i++) {
+				this.review.images.push(files[i]);
+			}
+		},
+		getReviews() {
+			axios.get(`/review/${this.review.product_id}`)
+			.then(response => {
+				this.rating = response.data.averageRating;
+				this.totalReviews = response.data.reviews;
+				console.log(response.data);
+			})
+			.catch(error => {
+				console.error(error);
+			});
+		},
+		submitReview() {
+			let formData = new FormData();
+			formData.append('review_description', this.review.text);
+			formData.append('rating', this.review.rating);
+			formData.append('product_id', this.review.product_id);
+			for (let i = 0; i < this.review.images.length; i++) {
+				formData.append('images[]', this.review.images[i]);
+			}
+
+			axios.post('/review', formData, {
+				headers: {
+				'Content-Type': 'multipart/form-data'
+				}
+			})
+			.then(response => {
+				console.log(response.data);
+				this.getReviews();
+			})
+			.catch(error => {
+				console.error(error);
+			});
+		},
 		changeCurrentImage(newUrl) {
 			this.currentImage = newUrl;
 		}
@@ -83,6 +132,21 @@ export default {
 								</div>
 								<div class="title-product">
 									<h1>{{ product.product_name }}</h1>
+								</div>
+								<div class="box-review">
+									<div class="rating">
+										<div class="rating-box">
+										<span class="fa fa-stack" v-for="n in 5" :key="n">
+											<i class="fa fa-star-o fa-stack-1x"></i>
+											<i class="fa fa-star fa-stack-1x" v-if="n <= this.rating"></i>
+										</span>
+										</div>
+									</div>
+									<a class="reviews_button"
+										onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;">{{ this.totalReviews }}
+										reviews</a> / <a class="write_review_button"
+										onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;">Write a
+										review</a>
 								</div>
 								<div class="product_page_price price" itemscope="" itemtype="http://data-vocabulary.org/Offer">
 									<span v-if="product.sale_price" class="price-new">
@@ -167,28 +231,34 @@ export default {
 												</div>
 											</div>
 											<div class="tab-pane" id="tab-review">
-												<form class="form-horizontal" id="form-review">
+												<form class="form-horizontal" id="form-review" @submit.prevent="submitReview">
 													<div id="review">
 														<p>There are no reviews for this product.</p>
 													</div>
 													<h2>Write a review</h2>
 													<div class="form-group required">
 														<div class="col-sm-12">
-															<label class="control-label" for="input-name">Your
-																Name</label>
-															<input type="text" name="name" value="" id="input-name"
-																class="form-control">
+															<label class="control-label" for="input-review">Your Review</label>
+															<textarea v-model="review.text" rows="5" id="input-review" class="form-control"></textarea>
+															<div class="help-block">
+																<span class="text-danger">Note:</span> Maximum Words 100-200!
+															</div>
 														</div>
 													</div>
 													<div class="form-group required">
 														<div class="col-sm-12">
-															<label class="control-label" for="input-review">Your
-																Review</label>
-															<textarea name="text" rows="5" id="input-review"
-																class="form-control"></textarea>
-															<div class="help-block"><span
-																	class="text-danger">Note:</span> HTML is not
-																translated!</div>
+															<label class="control-label">Rating</label>
+															&nbsp;&nbsp;&nbsp; Bad&nbsp;
+															<input type="radio" v-model="review.rating" value="1">
+															&nbsp;
+															<input type="radio" v-model="review.rating" value="2">
+															&nbsp;
+															<input type="radio" v-model="review.rating" value="3">
+															&nbsp;
+															<input type="radio" v-model="review.rating" value="4">
+															&nbsp;
+															<input type="radio" v-model="review.rating" value="5">
+															&nbsp;Good
 														</div>
 													</div>
 													<div class="form-group required">
@@ -207,12 +277,15 @@ export default {
 															&nbsp;Good
 														</div>
 													</div>
-													<div class="buttons clearfix"
-														style="visibility: hidden; display: block;">
+													<div class="form-group">
+														<div class="col-sm-12">
+															<label class="control-label" for="input-images">Upload Images</label>
+															<input type="file" multiple @change="handleFileUpload" class="form-control" id="input-images">
+														</div>
+													</div>
+													<div class="buttons clearfix" style="visibility: hidden; display: block;">
 														<div class="pull-right">
-															<button type="button" id="button-review"
-																data-loading-text="Loading..."
-																class="btn btn-primary">Continue</button>
+															<button type="submit" id="button-review" data-loading-text="Loading..." class="btn btn-primary">Continue</button>
 														</div>
 													</div>
 												</form>

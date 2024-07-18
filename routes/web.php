@@ -10,6 +10,7 @@ use App\Http\Controllers\checkoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -38,6 +39,10 @@ Route::middleware(['category'])->group(function () {
     Route::get('/contact-us', [HomepageController::class, 'contact_us'])->name('contact_us');
     Route::post('/contact-us', [HomepageController::class, 'contact_email'])->name('contact_us');
     Route::get('/about-us', [HomepageController::class, 'aboutUs'])->name('about_us');
+    Route::get('/review/{product_id}', [ReviewsController::class, 'index']);
+    Route::post('/review', [ReviewsController::class, 'saveReview'])->name('save_reviews');
+    Route::get('/reviews/listing/{product_id}', [ReviewsController::class, 'reviewsListing'])->name('reviewsListing');
+    Route::get('/admin/reviews/{product_id}', [ReviewsController::class, 'showProductReviews']);
 });
 
 Route::middleware('auth')->group(function () {

@@ -89,7 +89,10 @@ export default {
         },
         deleteButton(id) {
             this.$emit('delete', id);
-        }
+        },
+        reviewButton(id) {
+            this.$emit('reviews', id);
+        },
     },
     watch: {
         dataTableSettings: {
@@ -142,7 +145,13 @@ export default {
             <tbody>
                 <tr v-for="(row, index) in tableRows" :key="index" class="bg-white border-b">
                     <td v-for="(value, key) in row" :key="key" class="truncate px-3 py-2">
-                        <template v-if="key == 'buttons'">
+                        <template v-if="key == 'reviews'">
+                            <button @click="reviewButton(value)"
+                                class="px-2 py-2 text-primary transition-colors duration-150 bg-white rounded-r-lg focus:shadow-outline hover:bg-[#EAF4F6]">
+                                See Reviews
+                            </button>
+                        </template>
+                        <template v-else-if="key == 'buttons'">
                             <button @click="editButton(value)"
                                 class="px-2 py-2 text-primary transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-[#EAF4F6]">
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"

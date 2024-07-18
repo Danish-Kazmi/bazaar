@@ -70,4 +70,8 @@ class Product extends Model
             $categoryQuery->where('category_name', 'like', "%{$search}%");
         });
     }
+    public function reviews()
+    {
+        return $this->hasMany(Reviews::class);
+    }
 }
