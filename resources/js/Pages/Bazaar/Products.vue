@@ -63,7 +63,18 @@ export default {
 			this.fetchProducts();
 		},
 		addToCart(productId) {
-			// Add to cart logic
+            axios.post('/cart/add', {
+                item_id: productId,
+                quantity: 1 // or the quantity you want to add
+            })
+            .then(response => {
+                // this.$emit('cart-updated', response.data.cartItem); // Emit event to update cart if necessary
+                alert(response.data.message); // Show success message
+            })
+            .catch(error => {
+                console.error('There was an error adding the item to the cart!', error);
+                alert('There was an error adding the item to the cart!');
+            });
 		},
 		addToWishlist(productId) {
 			// Add to wishlist logic

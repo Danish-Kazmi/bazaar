@@ -5,10 +5,12 @@ use App\Http\Controllers\Auth\Admins\AdminController;
 use App\Http\Controllers\Auth\Admins\PermissionController;
 use App\Http\Controllers\Auth\Admins\RoleController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\checkoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewsController;
 use Illuminate\Foundation\Application;
@@ -31,7 +33,7 @@ Route::middleware(['category'])->group(function () {
     Route::get('/', [HomepageController::class, 'index'])->name('home');
 
     Route::get('/checkout', [checkoutController::class, 'checkout'])->name('checkout');
-    Route::get('/cart', [checkoutController::class, 'view_cart'])->name('view_cart');
+    Route::get('/view-cart', [checkoutController::class, 'view_cart'])->name('view_cart');
     Route::get('/pros', [HomepageController::class, 'pros'])->name('pros');
     Route::get('/products', [HomepageController::class, 'products'])->name('products');
     Route::get('/api/products', [HomepageController::class, 'getProducts'])->name('getProducts');
@@ -43,6 +45,11 @@ Route::middleware(['category'])->group(function () {
     Route::post('/review', [ReviewsController::class, 'saveReview'])->name('save_reviews');
     Route::get('/reviews/listing/{product_id}', [ReviewsController::class, 'reviewsListing'])->name('reviewsListing');
     Route::get('/admin/reviews/{product_id}', [ReviewsController::class, 'showProductReviews']);
+    Route::post('/cart/add', [CartController::class, 'addToCart']);
+    Route::get('/cart', [CartController::class, 'getCart']);
+    Route::delete('/cart/{id}', [CartController::class, 'removeFromCart']);
+    Route::post('/order/place', [OrderController::class, 'placeOrder']);
+
 });
 
 Route::middleware('auth')->group(function () {
