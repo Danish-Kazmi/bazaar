@@ -12,16 +12,21 @@ use Inertia\Inertia;
 
 class BrandController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:web');
+    }
     public function TagListPermissions()
     {
-        return [
-            'users' => Auth::user()->can('user-list'),
-            'roles' => Auth::user()->can('role-list'),
-            'permissions' => Auth::user()->can('permission-list'),
-            'category' => Auth::user()->can('category-list'),
-            'brand' => Auth::user()->can('brand-list'),
-            'product' => Auth::user()->can('product-list')
+        $TagListPermissions = [
+            'users' => Auth::user()->roles()->first()->hasPermissionTo('user-list'),
+            'roles' => Auth::user()->roles()->first()->hasPermissionTo('role-list'),
+            'permissions' => Auth::user()->roles()->first()->hasPermissionTo('permission-list'),
+            'category' => Auth::user()->roles()->first()->hasPermissionTo('category-list'),
+            'brand' => Auth::user()->roles()->first()->hasPermissionTo('brand-list'),
+            'product' => Auth::user()->roles()->first()->hasPermissionTo('product-list')
         ];
+        return $TagListPermissions;
     }
 
     public function index(Request $request)

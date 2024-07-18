@@ -13,15 +13,19 @@ use Inertia\Inertia;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:web');
+    }
     public function TagListPermissions()
     {
         $TagListPermissions = [
-            'users' => Auth::user()->can('user-list'),
-            'roles' => Auth::user()->can('role-list'),
-            'permissions' => Auth::user()->can('permission-list'),
-            'category' => Auth::user()->can('category-list'),
-            'brand' => Auth::user()->can('brand-list'),
-            'product' => Auth::user()->can('product-list')
+            'users' => Auth::user()->roles()->first()->hasPermissionTo('user-list'),
+            'roles' => Auth::user()->roles()->first()->hasPermissionTo('role-list'),
+            'permissions' => Auth::user()->roles()->first()->hasPermissionTo('permission-list'),
+            'category' => Auth::user()->roles()->first()->hasPermissionTo('category-list'),
+            'brand' => Auth::user()->roles()->first()->hasPermissionTo('brand-list'),
+            'product' => Auth::user()->roles()->first()->hasPermissionTo('product-list')
         ];
         return $TagListPermissions;
     }
@@ -71,7 +75,9 @@ class ProductController extends Controller
 
         $products = $products->where('products.active', 1);
         $products = $products->where('products.is_deleted', 0);
-
+        if(Auth::user()->roles()->first()->name == "seller") {
+            $products = $products->where('products.added_by', Auth::user()->id);
+        }
         $total = $products->count();
 
         if ($take != 'All') {
