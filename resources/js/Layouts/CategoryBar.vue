@@ -6,11 +6,18 @@ export default {
     data() {
         return {
             categories: [],
+            searchCategoryId: '',
+            searchQuery: '',
         }
     },
     mounted() {
         const categories = usePage().props.categories;
         this.categories = categories;
+    },
+    methods: {
+        handleSearch() {
+            this.$inertia.get('/products', { category_id: this.searchCategoryId, searchQuery: this.searchQuery });
+        },
     },
 }
 </script>
@@ -73,23 +80,6 @@ export default {
 
                                                         </a>
                                                     </li>
-                                                    <li class="deal-h5 hidden">
-                                                        <p class="close-menu"></p>
-                                                        <a href="#" class="clearfix">
-                                                            <strong>
-                                                                <img src="http://bazaar.test/theme/image/catalog/demo/menu/hot-block.png"
-                                                                    alt="">Buy This Theme!
-                                                            </strong>
-                                                        </a>
-                                                    </li>
-                                                    <li class="deal-h5 hidden">
-                                                        <p class="close-menu"></p>
-                                                        <a href="#" class="clearfix">
-                                                            <strong>
-                                                                Today Deals
-                                                            </strong>
-                                                        </a>
-                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -101,10 +91,10 @@ export default {
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-11 col-xs-9 header-search">
                     <div id="sosearchpro" class="sosearchpro-wrapper so-search ">
-                        <form method="GET" action="index.php">
+                        <form @submit.prevent="handleSearch">
                             <div id="search0" class="search input-group form-group">
                                 <div class="select_category filter_type  icon-select">
-                                    <select class="no-border" name="category_id">
+                                    <select class="no-border" name="category_id" v-model="searchCategoryId">
                                         <option value="">All Categories </option>
                                         <template v-for="(category, id) in categories" :key="id">
                                             <option :value="category.id">
@@ -120,7 +110,7 @@ export default {
                                         </template>
                                     </select>
                                 </div>
-                                <input class="autosearch-input form-control" type="text" value="" size="50"
+                                <input class="autosearch-input form-control" type="text"  v-model="searchQuery" size="50"
                                     autocomplete="off" placeholder="Search" name="search">
 
                                 <span class="input-group-btn">
@@ -129,7 +119,6 @@ export default {
                                             class="hidden">Search</span></button>
                                 </span>
                             </div>
-                            <input type="hidden" name="route" value="product/search">
                         </form>
                     </div>
                 </div>

@@ -51,6 +51,7 @@ class HomepageController extends Controller
         return Inertia::render('Bazaar/Products', [
             'category_id' => $categoryId,
             'brands' => $brands,
+            'searchQuery' => $request->query('searchQuery'),
         ]);
     }
     public function getProducts(Request $request)
@@ -68,7 +69,6 @@ class HomepageController extends Controller
             $minPrice = $maxPrice;
             $maxPrice = $temp;
         }
-    
         $productsQuery = DB::table('products')
             ->select(
                 'products.id as id',
@@ -92,7 +92,6 @@ class HomepageController extends Controller
             ->where('products.is_deleted', 0)
             ->whereBetween('products.price', [$minPrice, $maxPrice])
             ->groupBy('products.id', 'categories.category_name', 'brands.brand_name', 'users.name');
-    
         // Apply search filter
         if ($category_id) {
             $productsQuery->where('products.category_id', $category_id);

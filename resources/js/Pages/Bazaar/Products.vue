@@ -11,6 +11,7 @@ export default {
 	props: {
         brands: Array,
         category_id: String,
+		searchQuery: String
 	},
 	data() {
 		return {
@@ -30,6 +31,7 @@ export default {
 	},
 	mounted() {
         this.categoryId = this.category_id;
+		this.search = this.searchQuery;
 		this.fetchProducts();
 	},
 	methods: {
