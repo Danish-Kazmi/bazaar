@@ -21,7 +21,7 @@ class CartController extends Controller
         ]);
 
         $cartItem = Cart::updateOrCreate(
-            ['user_id' => $user->id, 'item_id' => $request->item_id],
+            ['user_id' => $user->id, 'product_id' => $request->product_id],
             ['quantity' => DB::raw('quantity + ' . $request->quantity)]
         );
 
@@ -39,8 +39,37 @@ class CartController extends Controller
     public function removeFromCart($id)
     {
         $user = Auth::user() ?? User::where('ip_address', request()->ip())->first();
-        $user->cartItems()->where('id', $id)->delete();
-
-        return response()->json(['message' => 'Item removed from cart']);
+        $cartItem = Cart::where('user_id', $user->id)->where('id', $id)->first();
+    
+        if ($cartItem) {
+            $cartItem->delete();
+            return response()->json(['message' => 'Item removed from cart']);
+        } else {
+            return response()->json(['message' => 'Item not found in cart'], 404);
+        }
     }
+    
+    public function updateCart(Request $request)
+    {
+        $user = Auth::user() ?? User::where('ip_address', request()->ip())->first();
+    
+        // Validate request
+        $request->validate([
+            'id' => 'required|integer|exists:carts,id',
+        ]);
+    
+        // Find the cart item
+        $cartItem = $user->cartItems()->where('id', $request->id)->first();
+    
+        if ($cartItem) {
+            // Update the quantity
+            $cartItem->quantity = $request->quantity;
+            $cartItem->save();
+    
+            return response()->json(['message' => 'Cart updated successfully']);
+        }
+    
+        return response()->json(['message' => 'Cart item not found'], 404);
+    }
+    
 }

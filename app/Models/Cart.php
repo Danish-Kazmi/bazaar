@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Item;
+use App\Models\Product;
 
 class Cart extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'item_id', 'quantity'
+        'user_id', 'product_id', 'quantity'
     ];
 
     public function user()
@@ -19,8 +19,8 @@ class Cart extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function item()
+    public function product()
     {
-        return $this->belongsTo(Item::class); // Replace Item with your actual product model
+        return $this->belongsTo(Product::class, 'product_id', 'id'); // Replace Item with your actual product model
     }
 }

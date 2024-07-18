@@ -64,7 +64,7 @@ export default {
 		},
 		addToCart(productId) {
             axios.post('/cart/add', {
-                item_id: productId,
+                product_id: productId,
                 quantity: 1 // or the quantity you want to add
             })
             .then(response => {
@@ -581,9 +581,9 @@ export default {
 																data-toggle="tooltip" title=""
 																@click="addToCart(product.id)"
 																data-original-title="Add to Cart">
-																<span class="hidden">Add to Cart</span>
+																Add to Cart
 															</button>
-															<button class="wishlist btn-button" type="button"
+															<!-- <button class="wishlist btn-button" type="button"
 																data-toggle="tooltip" title=""
 																@click="addToWishlist(product.id)"
 																data-original-title="Add to Wish List ">
@@ -594,7 +594,7 @@ export default {
 																@click="addToCompare(product.id)"
 																data-original-title="Compare this Product ">
 																<i class="fa fa-retweet"></i>
-															</button>
+															</button> -->
 														</div>
 													</div>
 												</div>
@@ -658,7 +658,7 @@ export default {
     z-index: 5;
     opacity: 1;
     height: 35px;
-    width: 35px;
+	width: 100%;
     font-size: 14px;
     line-height: 35px;
     padding: 0;
@@ -668,7 +668,7 @@ export default {
     display: inline-block;
     vertical-align: middle;
     cursor: pointer;
-    border-radius: 50%;
+    border-radius: 10px;
     outline: none;
     visibility: visible;
 	position: relative;
@@ -681,7 +681,7 @@ export default {
     height: 18px;
     color: white;
     background: #ff5e00 url(theme/image/icon/icon-cart-2.png) no-repeat center center;
-    left: 9px;
+    left: 20px;
 }
 .products-list.grid .product-layout .product-item-container .right-block .caption .list-block .btn-button.addToCart:hover:before {
 	color: #ff5e00;
