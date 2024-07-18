@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('name')->nullable()->change();
             $table->string('email')->nullable()->change();
             $table->string('password')->nullable()->change();
-            $table->string('ip_address')->nullable()->change();
+            $table->string('ip_address')->nullable();
         });
     }
 
