@@ -48,6 +48,7 @@ Route::middleware(['category'])->group(function () {
     Route::post('/cart/add', [CartController::class, 'addToCart']);
     Route::get('/cart', [CartController::class, 'getCart']);
     Route::delete('/cart/{id}', [CartController::class, 'removeFromCart']);
+    Route::post('/cart/update', [CartController::class, 'updateCart']);
     Route::post('/order/place', [OrderController::class, 'placeOrder']);
 
 });

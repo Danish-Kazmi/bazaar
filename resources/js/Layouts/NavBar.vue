@@ -1,12 +1,38 @@
 <script>
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Link } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3';
 
 export default {
 	name: 'NavBar',
     components: {
 		Link,
         ApplicationLogo,
+	},
+    data() {
+        return {
+            carts: [],
+		}
+	},
+	mounted() {
+		this.carts = usePage().props.ziggy.cart;
+		console.log(this.carts, 'Ziggy');
+	},
+	computed: {
+		totalPrice() {
+			return this.carts.reduce((total, cart) => total + cart.product.price * cart.quantity, 0);
+		},
+	},
+	methods: {
+		removeFromCart(cartId) {
+			axios.delete(`/cart/${cartId}`)
+				.then(response => {
+					this.carts = this.carts.filter(cart => cart.id !== cartId);
+				})
+				.catch(error => {
+					console.error('There was an error removing the item from the cart!', error);
+				});
+		},
 	},
 }
 </script>
@@ -67,64 +93,49 @@ export default {
 										<h2 class="title-cart">Shopping cart</h2>
 										<h2 class="title-cart2 hidden">My Cart</h2>
 										<span class="total-shopping-cart cart-total-full">
-											<span class="items_cart">2 </span>
-											<span class="items_cart2">item(s)</span>
-											<span class="items_carts"> - $206.80</span>
+											<span class="items_cart">{{ carts.length }} </span>
+											<span class="items_cart2"> item(s)</span>
+											<span class="items_carts"> - ${{ totalPrice }}</span>
 										</span>
 									</div>
 								</div>
 							</a>
 							<ul class="dropdown-menu pull-right shoppingcart-box">
 								<li class="content-item">
-									<table class="table table-striped" style="margin-bottom:10px;">
-										<tbody>
-											<tr>
-												<td class="text-center size-img-cart">
-													<a href="product.html">
-														<img src="http://bazaar.test/theme/image/catalog/demo/product/travel/10-54x54.jpg"
-															alt="Bougainvilleas on Lombard Street,  San Francisco, Tokyo"
-															title="Bougainvilleas on Lombard Street,  San Francisco, Tokyo"
-															class="img-thumbnail">
-													</a>
-												</td>
-												<td class="text-left"><a href="product.html">Bougainvilleas on
-														Lombard Street, San Francisco, Tokyo</a>
-													<br> - <small>Size M</small>
-												</td>
-												<td class="text-right">x1</td>
-												<td class="text-right">$120.80</td>
-												<td class="text-center">
-													<button type="button" title="Remove"
-														class="btn btn-danger btn-xs"><i
-															class="fa fa-trash-o"></i></button>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-									<table class="table table-striped" style="margin-bottom:10px;">
-										<tbody>
-											<tr>
-												<td class="text-center size-img-cart">
-													<a href="product.html"><img
-															src="http://bazaar.test/theme/image/catalog/demo/product/travel/2-54x54.jpg"
-															alt="Canada Travel One or Two European Facials at  Studio"
-															title="Canada Travel One or Two European Facials at  Studio"
-															class="img-thumbnail"></a>
-												</td>
-												<td class="text-left"><a href="product.html">Canada Travel One
-														or Two European Facials at Studio</a>
-													<br> - <small>Size M</small>
-												</td>
-												<td class="text-right">x1</td>
-												<td class="text-right">$86.00</td>
-												<td class="text-center">
-													<button type="button" title="Remove"
-														class="btn btn-danger btn-xs"><i
-															class="fa fa-trash-o"></i></button>
-												</td>
-											</tr>
-										</tbody>
-									</table>
+									<template v-for="cart in carts" :key="cart.id">
+										<table class="table table-striped" style="margin-bottom:10px;">
+											<tbody>
+												<tr>
+													<td class="text-center size-img-cart">
+														<a :href="route('single_product', cart.product.id)">
+															<img :src="cart.product.image"
+																:alt="cart.product.product_name"
+																:title="cart.product.product_name"
+																class="img-thumbnail">
+														</a>
+													</td>
+													<td class="text-left">
+														<a :href="route('single_product', cart.product.id)">
+															{{ cart.product.product_name }}
+														</a>
+														<br> - <small>{{ cart.product.product_id }}</small>
+													</td>
+													<td class="text-right">x1</td>
+													<td class="text-right">${{ cart.product.price }}</td>
+													<td class="text-center">
+														<button type="button" title="Remove"
+															class="btn btn-danger btn-xs"
+															@click="removeFromCart(cart.id)">
+															<i class="fa fa-trash-o"></i>
+														</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</template>
+									<li v-if="carts.length === 0">
+										<p class="text-center">Your cart is empty</p>
+									</li>
 								</li>
 								<li>
 									<div class="checkout clearfix">
