@@ -16,6 +16,7 @@ export default {
 			reviews: 0,
 			totalReviews: 0,
 			currentImage: 'storage/product_images/demo.jpeg',
+            reviews: [],
 			review: {
 				text: '',
 				rating: '',
@@ -28,8 +29,18 @@ export default {
 		this.currentImage = this.product.images.length > 0 ? this.product.images[0].path : 'storage/product_images/demo.jpeg';
 		this.review.product_id = this.product.id;
 		this.getReviews();
+        this.getProductReviews();
 	},
 	methods: {
+        getProductReviews() {
+            axios.get(`/admin/reviews/${this.review.product_id}`)
+                .then(response => {
+                    this.reviews = response.data.reviews;
+                })
+                .catch(error => {
+                    console.error('Error fetching reviews:', error);
+                });
+        },
 		handleFileUpload(event) {
 			const files = event.target.files;
 			for (let i = 0; i < files.length; i++) {
@@ -55,7 +66,6 @@ export default {
 			for (let i = 0; i < this.review.images.length; i++) {
 				formData.append('images[]', this.review.images[i]);
 			}
-
 			axios.post('/review', formData, {
 				headers: {
 				'Content-Type': 'multipart/form-data'
@@ -63,7 +73,7 @@ export default {
 			})
 			.then(response => {
 				console.log(response.data);
-				this.getReviews();
+				this.$inertia.get('/product/'+this.review.product_id);
 			})
 			.catch(error => {
 				console.error(error);
@@ -124,7 +134,7 @@ export default {
 								</div>
 							</div>
 							<div class="content-product-right col-md-7 col-sm-6 col-xs-12">
-								<div class="countdown_box">
+								<div class="countdown_box hidden">
 									<div class="countdown_inner">
 										<div class="Countdown-1">
 										</div>
@@ -136,10 +146,10 @@ export default {
 								<div class="box-review">
 									<div class="rating">
 										<div class="rating-box">
-										<span class="fa fa-stack" v-for="n in 5" :key="n">
-											<i class="fa fa-star-o fa-stack-1x"></i>
-											<i class="fa fa-star fa-stack-1x" v-if="n <= this.rating"></i>
-										</span>
+											<span class="fa fa-stack" v-for="n in 5" :key="n">
+												<i class="fa fa-star-o fa-stack-1x"></i>
+												<i class="fa fa-star fa-stack-1x" v-if="n <= this.rating"></i>
+											</span>
 										</div>
 									</div>
 									<a class="reviews_button"
@@ -220,14 +230,41 @@ export default {
 								<div class="producttab ">
 									<div class="tabsslider  ">
 										<ul class="nav nav-tabs font-sn">
-											<li class="active"><a data-toggle="tab"
-													href="#tab-description">Description</a></li>
-											<li><a href="#tab-review" data-toggle="tab">Reviews (0)</a></li>
+											<li class="active"><a data-toggle="tab" href="#tab-description">Reviews ({{ reviews.length }})</a></li>
+											<li><a href="#tab-review" data-toggle="tab">Write a review</a></li>
 										</ul>
 										<div class="tab-content ">
 											<div class="tab-pane active" id="tab-description">
 												<div style="text-align: justify; text-justify: inter-word;">
-													{{ product }}
+													<div v-if="reviews.length === 0">
+														<p>There are no reviews for this product.</p>
+													</div>
+													<div v-else>
+														<div v-for="review in reviews" :key="review.id" class="card">
+															<div class="card-body py-3">
+																<div class="flex gap-6 items-center">
+																	<h5 class="card-title">{{ review.user.name }}</h5>
+																	<div class="box-review" style="float: right;">
+																		<div class="rating">
+																			<div class="rating-box">
+																				<span class="fa fa-stack" v-for="n in 5" :key="n">
+																					<i class="fa fa-star-o fa-stack-1x"></i>
+																					<i class="fa fa-star fa-stack-1x" v-if="n <= review.rating"></i>
+																				</span>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																<p class="card-text">{{ review.review_description }}</p>
+																<div v-if="review.review_images.length > 0">
+																	<div class="review-images">
+																		<img v-for="image in review.review_images" :key="image.id" :src="image.path" alt="Review Image" class="img-thumbnail">
+																	</div>
+																</div>
+															</div>
+															<hr>
+														</div>
+													</div>
 												</div>
 											</div>
 											<div class="tab-pane" id="tab-review">
@@ -258,22 +295,6 @@ export default {
 															<input type="radio" v-model="review.rating" value="4">
 															&nbsp;
 															<input type="radio" v-model="review.rating" value="5">
-															&nbsp;Good
-														</div>
-													</div>
-													<div class="form-group required">
-														<div class="col-sm-12">
-															<label class="control-label">Rating</label>
-															&nbsp;&nbsp;&nbsp; Bad&nbsp;
-															<input type="radio" name="rating" value="1">
-															&nbsp;
-															<input type="radio" name="rating" value="2">
-															&nbsp;
-															<input type="radio" name="rating" value="3">
-															&nbsp;
-															<input type="radio" name="rating" value="4">
-															&nbsp;
-															<input type="radio" name="rating" value="5">
 															&nbsp;Good
 														</div>
 													</div>
@@ -883,5 +904,14 @@ export default {
 .breadcrumbs .breadcrumb-cate li:not(:last-child):before {
 	content: "|";
 	color: #000;
+}
+.review-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.review-images img {
+    max-width: 200px;
+    height: auto;
 }
 </style>

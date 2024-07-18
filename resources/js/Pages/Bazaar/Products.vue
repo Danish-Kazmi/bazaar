@@ -109,7 +109,7 @@ export default {
 										<div class="so-filter-heading-text">
 											<span>Search</span>
 										</div>
-										<i class="fa fa-chevron-down"></i>
+										<!-- <i class="fa fa-chevron-down"></i> -->
 									</div>
 
 									<div class="so-filter-content-opts">
@@ -190,7 +190,7 @@ export default {
 										<div class="so-filter-heading-text">
 											<span>Brand</span>
 										</div>
-										<i class="fa fa-chevron-down"></i>
+										<!-- <i class="fa fa-chevron-down"></i> -->
 									</div>
 
 									<div class="so-filter-content-opts">
@@ -214,7 +214,7 @@ export default {
 										<div class="so-filter-heading-text">
 											<span>Price</span>
 										</div>
-										<i class="fa fa-chevron-down"></i>
+										<!-- <i class="fa fa-chevron-down"></i> -->
 									</div>
 									<div class="so-filter-content-opts">
 										<div class="so-filter-content-opts-container">
@@ -248,7 +248,7 @@ export default {
 							</div>
 						</div>
 					</div>
-					<div class="moduletable module so-extraslider-ltr best-seller best-seller-custom">
+					<div class="moduletable module so-extraslider-ltr best-seller best-seller-custom hidden">
 						<h3 class="modtitle"><span>Best Sellers</span></h3>
 						<div class="modcontent">
 							<div id="so_extra_slider"

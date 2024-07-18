@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Reviews;
 use App\Models\ReviewsImages;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ReviewsController extends Controller
@@ -68,7 +69,15 @@ class ReviewsController extends Controller
             ->where('is_deleted', 0)
             ->with(['user', 'review_images'])
             ->get();
-
+        $reviews->each(function ($review) {
+            $review->review_images->transform(function ($image) {
+                // Use a default image if image_path is empty
+                $image->path = $image->image 
+                    ? Storage::url($image->image) 
+                    : Storage::url('product_images/demo.jpeg');
+                return $image;
+            });
+        });
         return response()->json([
             'product' => $product,
             'reviews' => $reviews,
